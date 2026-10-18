@@ -1,0 +1,1564 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Learn hiragana, katakana and JLPT N5 Japanese. Escape the office, fly to Osaka, buy an akiya.">
+<meta name="theme-color" content="#1d232c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="One Way">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta property="og:title" content="One Way to Japan">
+<meta property="og:description" content="Learn Japanese. Escape the grind. Buy an akiya.">
+<meta property="og:image" content="og.jpg">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>One Way to Japan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Maru+Gothic:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one portrait phone frame. Stage 1 Singapore = slate glass over the rain painting. Stage 2 Osaka = washi paper under the autumn painting. Kana and word cards are always paper: each one is a scrap of Japan. */
+:root{
+  --paper:#f5ede0; --paper-2:#eadfcb; --ink:#2a2730; --ink-soft:#615a63;
+  --torii:#cc4527; --momiji:#e5863a; --fuji:#5a6fa6; --moss:#4c7a52; --gold:#d3a23c;
+  --slate:#1d232c; --slate-2:#27303b; --slate-3:#36414f; --mist:#d3d9e1; --mist-soft:#929dab; --night:#101318;
+  --bg:var(--slate); --panel:var(--slate-2); --line:var(--slate-3); --text:var(--mist); --soft:var(--mist-soft); --hi:#ffffff;
+  --card:var(--paper); --chip:rgba(255,255,255,.07); --tabbg:#171c23; --tabline:#2a323d; --mbg:var(--paper); --mfg:var(--ink); --goldtxt:var(--gold);
+  --f-display:'Shippori Mincho B1','Hiragino Mincho ProN','Yu Mincho',serif;
+  --f-kana:'Klee One','Hiragino Maru Gothic ProN','Yu Gothic',sans-serif;
+  --f-ui:'Zen Maru Gothic','Hiragino Maru Gothic ProN',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --r:14px;
+  color-scheme:dark;
+}
+.jp{--bg:#f2e9d9; --panel:#fffaf1; --line:#e2d4bd; --text:#2a2730; --soft:#7d7168; --hi:#1f1c22; --card:#fffdf8; --chip:rgba(42,39,48,.06); --tabbg:#fffaf1; --tabline:#e2d4bd; --mbg:var(--ink); --mfg:var(--paper); --goldtxt:#9a6f12; color-scheme:light}
+html,body{height:100%}
+body{margin:0;background:var(--night);color:var(--mist);font-family:var(--f-ui);display:grid;place-items:center;overflow:hidden}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible{outline:2px solid var(--momiji);outline-offset:2px}
+#app{position:relative;width:100%;max-width:440px;height:100%;overflow:hidden;overflow:clip;background:var(--slate)}
+@media (min-width:520px) and (min-height:720px){#app{height:min(932px,calc(100% - 40px));border-radius:30px;box-shadow:0 40px 90px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.06)}}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;overflow:clip;background:var(--bg);color:var(--text);animation:fadeIn .35s ease both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.pad{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.scroll{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.grow{flex:1}
+.label{font-size:11.5px;font-family:var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin:0 0 8px;display:block}
+
+/* buttons */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border:0;border-radius:var(--r);font-weight:700;font-size:16px;letter-spacing:.01em;transition:transform .12s,opacity .2s;text-align:center}
+.btn:active{transform:scale(.98)}
+.btn svg{width:18px;height:18px}
+.btn-red{background:var(--torii);color:var(--paper);box-shadow:0 6px 18px rgba(204,69,39,.3)}
+.btn-paper{background:rgba(245,237,224,.94);color:var(--ink)}
+.jp .btn-paper{background:var(--ink);color:var(--paper)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn[disabled]{opacity:.38;pointer-events:none;box-shadow:none}
+.btn-sm{min-height:40px;font-size:14px;width:auto;padding:0 16px;border-radius:11px}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:0;background:var(--chip);display:grid;place-items:center;color:var(--text);flex:none}
+.icon-btn svg{width:20px;height:20px}
+
+/* ---------- title ---------- */
+.title-screen{background:#e9dcc4}
+.title-sky{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(28,22,20,.55) 82%,rgba(28,22,20,.85) 100%)}
+.title-head{position:relative;padding-top:clamp(36px,9vh,80px);display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.title-kicker{font-family:var(--f-kana);font-weight:600;color:var(--torii);letter-spacing:.32em;font-size:13px;margin:0 0 10px}
+.title-h1{font-family:var(--f-display);font-weight:800;color:var(--ink);font-size:clamp(40px,12.5vw,54px);line-height:.98;margin:0;letter-spacing:-.01em;text-shadow:0 1px 0 rgba(245,237,224,.6)}
+.title-h1 em{font-style:normal;font-weight:500;font-size:.5em;display:block;letter-spacing:.06em;margin:6px 0 2px;color:var(--ink-soft)}
+.hanko{flex:none;writing-mode:vertical-rl;background:var(--torii);color:var(--paper);font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:.12em;padding:12px 7px;border-radius:5px;transform:rotate(4deg);box-shadow:inset 0 0 0 2px rgba(245,237,224,.5),inset 0 0 0 4px var(--torii),0 4px 14px rgba(120,30,10,.3);margin-top:6px}
+.title-foot{position:relative;margin-top:auto;padding-bottom:max(26px,env(safe-area-inset-bottom,0px));display:grid;gap:10px}
+.title-note{font-size:12.5px;color:rgba(245,237,224,.85);text-align:center;margin:4px 0 0}
+.leaf-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.corner-btn{position:absolute;top:max(14px,env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));z-index:3}
+.title-screen .corner-btn{background:rgba(42,39,48,.18);color:var(--ink)}
+
+/* ---------- story / day ---------- */
+.shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,19,24,.15),rgba(16,19,24,.55) 40%,rgba(16,19,24,.94) 78%)}
+.shade.warm{background:linear-gradient(180deg,rgba(245,237,224,0) 35%,rgba(40,28,22,.7) 70%,rgba(32,22,18,.94))}
+.story{position:relative;margin-top:auto;padding-bottom:max(24px,env(safe-area-inset-bottom,0px));display:grid;gap:14px}
+.story p{margin:0;font-size:16.5px;line-height:1.6;color:var(--mist);text-wrap:pretty;animation:rise .7s ease both}
+.story p b{color:#fff;font-weight:700}
+.story .time{font-family:var(--f-mono);font-size:12.5px;color:var(--mist-soft);letter-spacing:.06em}
+.story .jpw{font-family:var(--f-kana);color:var(--momiji)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------- setup / placement ---------- */
+.setup-top{position:relative;height:118px;flex:none}
+.setup-top .bg{background-position:center 30%;filter:saturate(.8)}
+.setup-top::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(29,35,44,.2),var(--bg))}
+.setup-top h2{position:absolute;bottom:10px;left:0;right:0;margin:0;font-family:var(--f-display);font-size:26px;color:var(--hi);z-index:1}
+.form{display:grid;gap:18px;padding-top:22px;padding-bottom:16px}
+.input{width:100%;height:52px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--hi);font:500 17px var(--f-ui);padding:0 16px}
+.input::placeholder{color:#6d7887}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{position:relative;border:1px solid var(--line);background:var(--panel);border-radius:var(--r);padding:12px;text-align:left;display:flex;align-items:center;gap:12px;transition:border-color .2s,background .2s}
+.opt[aria-pressed="true"]{border-color:var(--momiji);background:#33302e}
+.opt svg.av{width:44px;height:44px;flex:none}
+.job{display:grid;gap:4px;align-items:start}
+.job b{font-size:16px;color:var(--hi)}
+.job .firm{font-family:var(--f-mono);font-size:11.5px;color:var(--soft)}
+.job .tag{font-size:13.5px;color:var(--text);line-height:1.5;margin-top:4px}
+.job .perk{font-size:12.5px;color:var(--gold);margin-top:4px}
+.stack{display:grid;gap:10px}
+.sticky-foot{padding-top:12px;padding-bottom:max(18px,env(safe-area-inset-bottom,0px))}
+.choice{border:1px solid var(--line);background:var(--panel);border-radius:var(--r);padding:16px;text-align:left;display:grid;gap:6px}
+.choice b{font-size:17px;color:var(--hi);display:flex;align-items:center;gap:10px}
+.choice span{font-size:14px;color:var(--text);line-height:1.5}
+.choice small{font-family:var(--f-mono);font-size:11.5px;color:var(--soft)}
+.choice.red{border-color:rgba(204,69,39,.6);background:linear-gradient(160deg,#3a2826,var(--panel))}
+.choice .ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--line);flex:none}
+.choice .ic svg{width:16px;height:16px}
+.choice[disabled]{opacity:.45}
+
+/* ---------- hub ---------- */
+.hub-top{position:relative;flex:none;padding-top:max(12px,env(safe-area-inset-top,0px));overflow:hidden}
+.hub-top .bg{background-position:center 38%;filter:saturate(.75) brightness(.8)}
+.hub-top::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(29,35,44,.35),rgba(29,35,44,.82) 60%,var(--bg))}
+.jp .hub-top .bg{background-position:center 22%;filter:none}
+.jp .hub-top::after{background:linear-gradient(180deg,rgba(242,233,217,.15),rgba(242,233,217,.72) 55%,var(--bg))}
+.hub-in{position:relative;z-index:1;display:grid;gap:12px;padding-bottom:14px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.who{display:flex;align-items:center;gap:10px;min-width:0}
+.who svg{width:44px;height:44px;flex:none}
+.who div{min-width:0;display:grid}
+.who b{font-size:16px;color:var(--hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who span{font-size:12px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jp .who span{color:var(--ink-soft)}
+.miles{display:inline-flex;align-items:center;gap:7px;background:rgba(16,19,24,.55);border:1px solid rgba(211,162,60,.4);padding:6px 12px 6px 8px;border-radius:999px;font-variant-numeric:tabular-nums}
+.jp .miles{background:rgba(255,250,241,.88)}
+.miles svg{width:20px;height:20px}
+.miles b{color:var(--goldtxt);font-size:15px}
+.miles span{font-size:11px;color:var(--soft);font-family:var(--f-mono)}
+.buff{font-size:11.5px;font-family:var(--f-mono);color:var(--torii);margin-left:2px}
+.day{font-family:var(--f-mono);font-size:12px;color:var(--text);letter-spacing:.04em;text-align:right}
+.day small{display:block;color:var(--soft)}
+.prog{display:grid;gap:6px}
+.prog-bar{height:8px;border-radius:99px;background:var(--chip);overflow:hidden;display:flex}
+.jp .prog-bar{background:rgba(42,39,48,.1)}
+.prog-bar i{display:block;height:100%}
+.prog-bar .m{background:linear-gradient(90deg,var(--torii),var(--momiji))}
+.prog-bar .l{background:rgba(229,134,58,.32)}
+.prog-txt{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--soft);font-variant-numeric:tabular-nums}
+.prog-txt b{color:var(--text);font-weight:500}
+
+.tab-body{padding-top:6px;padding-bottom:20px;display:grid;gap:12px;align-content:start;grid-auto-rows:max-content}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:8px 0 0}
+.sec-h h3{margin:0;font-size:13px;font-family:var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:500}
+.sec-h span{font-size:12px;color:var(--soft)}
+
+.banner{border-radius:var(--r);padding:14px;display:grid;gap:10px;background:#3b2a24;border:1px solid rgba(204,69,39,.55)}
+.banner p{margin:0;font-size:14px;line-height:1.5;color:var(--paper)}
+.banner p b{color:#fff}
+.banner.calm{background:var(--panel);border-color:var(--line)}
+.banner.calm p{color:var(--text)} .banner.calm p b{color:var(--hi)}
+.banner.gold{background:#33301f;border-color:rgba(211,162,60,.5)}
+.jp .banner{background:#fbe9e1;border-color:rgba(204,69,39,.45)}
+.jp .banner p{color:var(--ink)} .jp .banner p b{color:var(--torii)}
+.jp .banner.gold{background:#fbf1d8;border-color:rgba(211,162,60,.6)}
+.jp .banner.calm{background:var(--panel);border-color:var(--line)}
+
+.mail{position:relative;display:grid;grid-template-columns:34px 1fr;align-items:center;gap:12px;padding:10px 12px 10px 16px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line);text-align:left;width:100%}
+.mail.unread::before{content:"";position:absolute;left:6px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--momiji)}
+.mail .ini{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;font-weight:700;font-size:14px;color:var(--paper)}
+.mail-m{min-width:0;display:grid;gap:3px}
+.mail-top{display:flex;justify-content:space-between;gap:8px;font-size:13px}
+.mail-top b{color:var(--hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mail-top time{font-family:var(--f-mono);font-size:11.5px;color:var(--soft);flex:none}
+.mail-s{font-size:14.5px;font-weight:700;color:var(--hi);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.mail-sub{font-size:12.5px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kn{font-family:var(--f-kana);font-size:14px;letter-spacing:.06em}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chip{font-size:11.5px;font-family:var(--f-mono);padding:3px 8px;border-radius:7px;background:var(--chip);color:var(--soft)}
+.chip.k{font-family:var(--f-kana);font-size:14px;color:var(--hi);background:rgba(229,134,58,.16);padding:2px 8px}
+.mail.locked{opacity:.45;pointer-events:none}
+.mail.queued{opacity:.55}
+.mail.done{opacity:.6}
+.mail.done::before{display:none}
+.mail .num{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:17px;background:var(--chip);color:var(--hi)}
+.mail.done .num{background:var(--moss);color:#fff}
+.mail.unread .num{background:var(--torii);color:#fff}
+
+.chapter{display:grid;gap:8px}
+.ch-h{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:8px}
+.ch-h div{display:grid;gap:1px}
+.ch-h b{font-family:var(--f-display);font-size:22px;font-weight:800;color:var(--hi);line-height:1.1}
+.ch-h small{font-size:12.5px;color:var(--soft)}
+.ch-h .st{font-family:var(--f-mono);font-size:11.5px;color:var(--soft);flex:none}
+.ch-lock{border:1.5px dashed var(--line);border-radius:var(--r);padding:14px;display:grid;gap:8px;color:var(--soft);font-size:13.5px;line-height:1.5}
+.ch-lock b{color:var(--hi)}
+
+.event{display:grid;grid-template-columns:62px 1fr;gap:12px;padding:14px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line);align-items:start}
+.event time{font-family:var(--f-mono);font-size:13px;color:var(--text);padding-top:2px}
+.event b{display:block;color:var(--hi);font-size:15px}
+.event p{margin:4px 0 10px;font-size:13.5px;color:var(--soft);line-height:1.5}
+.event .done{font-size:12.5px;color:#7fb886;font-family:var(--f-mono);margin-top:6px;display:inline-block}
+.jp .event .done{color:var(--moss)}
+.event .muted{font-size:12.5px;color:var(--soft);font-family:var(--f-mono)}
+.event.hot{border-color:rgba(204,69,39,.55)}
+
+.empty{padding:28px 12px;text-align:center;color:var(--soft);font-size:14.5px;line-height:1.6}
+.empty b{display:block;color:var(--text);font-family:var(--f-display);font-size:20px;margin-bottom:4px}
+
+.tabs{flex:none;display:grid;grid-template-columns:repeat(4,1fr);background:var(--tabbg);border-top:1px solid var(--tabline);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.tabs button{border:0;background:none;display:grid;justify-items:center;gap:3px;padding:10px 0 9px;font-size:11px;color:var(--soft);position:relative}
+.tabs button svg{width:22px;height:22px}
+.tabs button[aria-selected="true"]{color:var(--hi)}
+.tabs button[aria-selected="true"] svg{color:var(--torii)}
+.badge{position:absolute;top:6px;left:calc(50% + 6px);min-width:17px;height:17px;padding:0 4px;border-radius:99px;background:var(--torii);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;font-variant-numeric:tabular-nums}
+
+/* shop */
+.item{display:grid;grid-template-columns:52px 1fr;gap:12px;padding:14px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line)}
+.item .ico{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-family:var(--f-kana);font-weight:600;font-size:15px;background:var(--paper-2);color:var(--ink);text-align:center;line-height:1.1;padding:4px}
+.item .ico svg{width:28px;height:28px;color:var(--torii)}
+.item b{color:var(--hi);font-size:15.5px;display:block}
+.item .jpn{font-family:var(--f-kana);font-size:13px;color:var(--soft)}
+.item p{margin:4px 0 10px;font-size:13.5px;color:var(--soft);line-height:1.5}
+.item .owned{font-family:var(--f-mono);font-size:12px;color:var(--moss)}
+.price{display:inline-flex;align-items:center;gap:5px;font-variant-numeric:tabular-nums}
+.price svg{width:16px;height:16px}
+.listing{border-radius:16px;overflow:hidden;background:var(--panel);border:1px solid var(--line)}
+.listing .ph{height:96px;background-size:cover;position:relative}
+.listing .ph span{position:absolute;left:12px;bottom:10px;background:var(--torii);color:var(--paper);font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;padding:3px 8px;border-radius:6px}
+.listing .bd{padding:14px;display:grid;gap:6px}
+.listing .bd b{font-size:16px;color:var(--hi)}
+.listing .bd .jt{font-family:var(--f-kana);font-size:16px;line-height:1.6;color:var(--hi)}
+.listing .bd .en{font-size:13px;color:var(--soft);line-height:1.5}
+.listing .bd small{font-family:var(--f-mono);font-size:11.5px;color:var(--soft)}
+
+/* boarding pass */
+.pass{background:var(--paper);color:var(--ink);border-radius:16px;overflow:hidden}
+.pass-h{background:var(--torii);color:var(--paper);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em}
+.pass-b{padding:16px;display:grid;gap:14px}
+.route{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
+.route div{display:grid}
+.route div:last-child{text-align:right}
+.route b{font-family:var(--f-display);font-size:34px;line-height:1;font-weight:800}
+.route span{font-size:11.5px;color:var(--ink-soft)}
+.route svg{width:36px;height:36px;color:var(--torii)}
+.pass-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:1.5px dashed #c9bba3;padding-top:12px}
+.pass-meta div{display:grid;gap:2px;min-width:0}
+.pass-meta small{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:var(--ink-soft)}
+.pass-meta b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.req{display:grid;gap:10px}
+.req-row{display:grid;gap:5px}
+.req-row .t{display:flex;justify-content:space-between;font-size:13px;font-variant-numeric:tabular-nums}
+.req-row .t span:last-child{font-family:var(--f-mono);font-size:12px;color:var(--ink-soft)}
+.req-bar{height:7px;border-radius:99px;background:var(--paper-2);overflow:hidden}
+.req-bar i{display:block;height:100%;background:var(--torii)}
+.req-bar i.ok{background:var(--moss)}
+
+.board{display:grid;gap:14px}
+.board h4{margin:0 0 6px;font-size:12px;font-family:var(--f-mono);letter-spacing:.1em;color:var(--soft);font-weight:500;text-transform:uppercase}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:5px}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:5px}
+.kc{aspect-ratio:1;max-width:100%;border:0;border-radius:9px;font-family:var(--f-kana);font-size:17px;display:grid;place-items:center;background:var(--chip);color:var(--soft);padding:0;opacity:.75}
+.wgrid .kc{aspect-ratio:auto;min-height:38px;font-size:14px;padding:4px 6px}
+.kc.l{background:rgba(229,134,58,.18);color:var(--hi);opacity:1}
+.kc.m{background:var(--mbg);color:var(--mfg);opacity:1}
+.kc.e{box-shadow:inset 0 0 0 1.5px var(--torii)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--soft)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.gram-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.gram-row b{font-family:var(--f-kana);font-size:15px;color:var(--hi);font-weight:600}
+.gram-row span{font-family:var(--f-mono);font-size:11px;color:var(--soft);flex:none}
+.gram-row span.ok{color:var(--moss)}
+
+/* ---------- quiz ---------- */
+.q-top{flex:none;padding-top:max(12px,env(safe-area-inset-top,0px));display:grid;gap:10px;padding-bottom:6px}
+.q-kicker{font-family:var(--f-mono);font-size:11.5px;color:var(--soft);letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.q-title{font-size:15px;color:var(--hi);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.q-bar{height:6px;border-radius:99px;background:var(--chip);overflow:hidden}
+.q-bar i{display:block;height:100%;background:var(--momiji);transition:width .3s}
+.q-main{flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;padding-top:6px;padding-bottom:max(16px,env(safe-area-inset-bottom,0px));overflow-y:auto}
+.card{position:relative;background:var(--card);color:var(--ink);border-radius:20px;padding:44px 18px 22px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:200px;flex:1;max-height:340px;box-shadow:0 10px 30px rgba(0,0,0,.18);text-align:center}
+.jp .card{border:1px solid var(--line);box-shadow:0 10px 26px rgba(90,60,30,.1)}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(120% 80% at 20% 0%,rgba(229,134,58,.08),transparent 60%),radial-gradient(90% 70% at 100% 100%,rgba(90,111,166,.08),transparent 60%)}
+.card .ask{font-size:12px;color:var(--ink-soft);font-family:var(--f-mono);letter-spacing:.05em;position:absolute;top:15px;left:16px;right:56px;text-align:left}
+.card .glyph{font-family:var(--f-kana);font-weight:600;font-size:clamp(92px,30vw,128px);line-height:1}
+.card .glyph.long{font-size:clamp(78px,24vw,104px)}
+.card .roma{font-family:var(--f-display);font-weight:800;font-size:clamp(56px,18vw,76px);line-height:1;letter-spacing:.02em}
+.card .word{font-family:var(--f-kana);font-weight:600;line-height:1.15;word-break:keep-all;overflow-wrap:anywhere}
+.card .kanji{font-family:var(--f-display);font-size:20px;color:var(--ink-soft);font-weight:500}
+.card .eng{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,8.5vw,36px);line-height:1.2;text-wrap:balance}
+.card .sent{font-family:var(--f-kana);font-weight:600;font-size:clamp(21px,6.4vw,26px);line-height:1.6;text-wrap:balance}
+.card .sent .blank{display:inline-block;min-width:2.4em;border-bottom:3px solid var(--torii);margin:0 2px;color:var(--torii)}
+.card .gloss{font-size:14px;color:var(--ink-soft);line-height:1.5}
+.card .speak{position:absolute;top:10px;right:10px;background:rgba(42,39,48,.07);color:var(--ink)}
+.card .note{font-size:14px;color:var(--ink-soft);line-height:1.55;max-width:34ch;text-wrap:pretty}
+.card .twin{font-family:var(--f-kana);font-size:13px;color:var(--ink-soft)}
+.card .twin b{font-size:22px;color:var(--torii);font-weight:600;vertical-align:-3px;margin-left:4px}
+.card .rom-sm{font-family:var(--f-display);font-size:30px;font-weight:700;color:var(--torii)}
+.card .en-sm{font-family:var(--f-display);font-size:24px;font-weight:700;color:var(--torii);line-height:1.25}
+.card .pattern{font-family:var(--f-kana);font-weight:600;font-size:clamp(24px,7.4vw,32px);color:var(--torii);line-height:1.3}
+.card .exs{display:grid;gap:8px;width:100%;text-align:left;margin-top:4px}
+.card .exs div{background:rgba(42,39,48,.05);border-radius:10px;padding:8px 12px;display:grid;gap:2px}
+.card .exs b{font-family:var(--f-kana);font-size:17px;font-weight:600}
+.card .exs span{font-size:13px;color:var(--ink-soft)}
+.card .exs button{all:unset;cursor:pointer;display:grid;gap:2px}
+.card.tall{max-height:none}
+.card.shake{animation:shake .35s}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:none}
+.o{min-height:64px;border-radius:var(--r);border:1px solid var(--line);background:var(--panel);color:var(--hi);font-size:21px;font-weight:700;display:grid;place-items:center;position:relative;padding:8px 10px;line-height:1.25;transition:background .15s,border-color .15s,transform .1s}
+.o:active{transform:scale(.98)}
+.o.kana{font-family:var(--f-kana);font-size:30px;font-weight:600}
+.o.kw{font-family:var(--f-kana);font-size:19px;font-weight:600}
+.o.en{font-size:15.5px;font-weight:700}
+.o .k{position:absolute;top:6px;left:9px;font-size:10px;color:var(--soft);font-family:var(--f-mono);font-weight:400}
+.o.ok{background:var(--moss);border-color:var(--moss);color:#fff}
+.o.bad{background:var(--torii);border-color:var(--torii);color:#fff}
+.o.ok .k,.o.bad .k{color:rgba(255,255,255,.7)}
+.o.dim{opacity:.4}
+.o.idk{grid-column:1/-1;min-height:44px;font-size:14px;font-weight:500;color:var(--soft);background:transparent}
+.fb{flex:none;min-height:52px;display:flex;align-items:center;gap:12px}
+.fb .msg{flex:1;min-width:0;font-size:14px;line-height:1.45;color:var(--text)}
+.fb .msg b{font-family:var(--f-kana);font-size:19px;color:var(--hi)}
+.float{position:absolute;right:58px;top:14px;font-weight:700;color:var(--goldtxt);font-size:15px;animation:floatUp .9s ease forwards;pointer-events:none;font-variant-numeric:tabular-nums}
+.jp .float{color:#9a6f12}
+@keyframes floatUp{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-26px)}}
+
+/* email / brief */
+.email-head{background:var(--card);color:var(--ink);border-radius:18px;padding:16px;display:grid;gap:10px}
+.jp .email-head{border:1px solid var(--line)}
+.email-head .meta{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-family:var(--f-mono);font-size:11.5px;color:var(--ink-soft)}
+.email-head .meta b{color:var(--ink);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.email-head h2{margin:0;font-size:18px;line-height:1.35;font-weight:700}
+.email-head .big{font-family:var(--f-display);font-size:26px;font-weight:800;line-height:1.15}
+.email-head p{margin:0;font-size:14.5px;line-height:1.6;color:#3d3840;white-space:pre-line}
+.email-head .att{display:flex;gap:8px;flex-wrap:wrap}
+.email-head .att span{font-family:var(--f-kana);font-size:22px;font-weight:600;background:var(--paper-2);border-radius:10px;min-width:46px;height:46px;padding:0 10px;display:grid;place-items:center}
+.email-head .att.words span{font-size:16px}
+.email-head .gp{font-family:var(--f-kana);font-weight:600;color:var(--torii);font-size:17px}
+.dots{display:flex;gap:6px;justify-content:center}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--momiji)}
+
+/* results */
+.res{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:18px;padding-top:max(20px,env(safe-area-inset-top,0px));padding-bottom:max(20px,env(safe-area-inset-bottom,0px));overflow-y:auto}
+.res h2{font-family:var(--f-display);font-size:32px;line-height:1.1;margin:0;color:var(--hi);text-wrap:balance}
+.res .sub{margin:0;color:var(--text);font-size:15px;line-height:1.6}
+.res .score{display:flex;gap:10px}
+.res .score div{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:grid;gap:2px}
+.res .score small{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;color:var(--soft);text-transform:uppercase}
+.res .score b{font-size:24px;color:var(--hi);font-variant-numeric:tabular-nums}
+.res .score b.gold{color:var(--goldtxt)}
+.stamp{align-self:flex-start;font-family:var(--f-display);font-weight:800;font-size:26px;letter-spacing:.14em;padding:8px 16px;border:4px solid currentColor;border-radius:8px;transform:rotate(-7deg);animation:stamp .45s cubic-bezier(.2,1.6,.4,1) both}
+.stamp.red{color:var(--torii)}
+.stamp.green{color:#7fb886}
+.jp .stamp.green{color:var(--moss)}
+@keyframes stamp{from{opacity:0;transform:rotate(-7deg) scale(2.2)}to{opacity:1;transform:rotate(-7deg) scale(1)}}
+
+/* day transition + ending */
+.day-in{position:relative;margin-top:auto;padding-bottom:max(24px,env(safe-area-inset-bottom,0px));display:grid;gap:12px}
+.day-in .big{font-family:var(--f-display);font-size:44px;font-weight:800;color:#fff;line-height:1}
+.day-in .wd{font-family:var(--f-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-soft)}
+.day-in p{margin:0;color:var(--mist);font-size:16px;line-height:1.6}
+.day-in .meta{font-family:var(--f-mono);font-size:12.5px;color:var(--mist-soft);letter-spacing:.06em}
+.end .bg.bloom{filter:grayscale(1) brightness(.7);animation:bloom 3.2s ease .3s forwards}
+@keyframes bloom{to{filter:none}}
+.end-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(245,237,224,0) 35%,rgba(28,22,20,.75) 70%,rgba(28,22,20,.94))}
+.end-in{position:relative;margin-top:auto;padding-bottom:max(24px,env(safe-area-inset-bottom,0px));display:grid;gap:12px;color:var(--paper)}
+.end-in .jpk{font-family:var(--f-kana);font-size:15px;letter-spacing:.2em;color:var(--momiji)}
+.end-in h2{font-family:var(--f-display);font-size:34px;line-height:1.08;margin:0;color:#fff}
+.end-in p{margin:0;font-size:15px;line-height:1.6;color:rgba(245,237,224,.88)}
+
+/* in-screen sheet (food order) */
+.sheet-wrap{position:absolute;inset:0;background:rgba(20,16,14,.45);display:flex;align-items:flex-end;z-index:20;animation:fadeIn .2s ease both}
+.sheet{width:100%;background:var(--bg);border-radius:22px 22px 0 0;padding-top:18px;padding-bottom:max(18px,env(safe-area-inset-bottom,0px));display:grid;gap:12px;animation:up .28s ease both}
+@keyframes up{from{transform:translateY(40px)}to{transform:none}}
+.sheet .say{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:4px;color:var(--ink)}
+.sheet .say b{font-family:var(--f-kana);font-size:22px;font-weight:600}
+.sheet .say span{font-size:13px;color:var(--ink-soft)}
+.sheet h3{margin:0;font-size:17px;color:var(--hi)}
+.sheet .opts .o{min-height:56px;font-size:15.5px}
+
+.toast{position:absolute;left:50%;bottom:86px;transform:translateX(-50%) translateY(20px);background:var(--paper);color:var(--ink);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:500;box-shadow:0 10px 30px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:50;max-width:calc(100% - 40px);text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast b{font-family:var(--f-kana);font-size:18px}
+.danger-link{background:none;border:0;color:var(--soft);font-size:13px;text-decoration:underline;padding:6px 0;justify-self:start}
+.av{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:center 25%;background:var(--paper-2);flex:none;display:block;box-shadow:0 0 0 2px rgba(245,237,224,.5)}
+.chars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ch{border:0;padding:0;background:var(--paper-2);border-radius:50%;aspect-ratio:1;max-width:100%;overflow:hidden;box-shadow:0 0 0 2px var(--line);transition:box-shadow .2s,transform .15s,opacity .2s}
+.ch img{width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block}
+.ch[aria-pressed="true"]{box-shadow:0 0 0 3px var(--momiji);transform:scale(1.06)}
+.chars.has .ch:not([aria-pressed="true"]){opacity:.55}
+.opt .job .tag{margin-top:0}
+.place{position:relative;margin-top:auto;padding-bottom:max(24px,env(safe-area-inset-bottom,0px));display:grid;gap:10px}
+.place h2{margin:0;font-family:var(--f-display);font-size:32px;color:#fff;line-height:1.1}
+.place>p{margin:0 0 6px;color:var(--mist);font-size:15px}
+.place .choice{background:rgba(29,35,44,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:14px 16px}
+.place .choice.red{background:rgba(70,36,30,.9)}
+.clock-btn{animation:rise .4s ease both}
+.att-list{display:grid;gap:10px}
+.kcard{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:center;gap:12px;background:var(--card);color:var(--ink);border-radius:18px;padding:12px 14px;border:0;text-align:left;width:100%;box-shadow:0 6px 18px rgba(0,0,0,.14);transition:transform .1s,box-shadow .2s}
+.kcard:active{transform:scale(.985)}
+.kcard.on{box-shadow:0 0 0 2.5px var(--momiji)}
+.kcard .gl{font-family:var(--f-kana);font-weight:600;font-size:62px;line-height:1.05;text-align:center}
+.kcard .gl.long{font-size:42px}
+.kcard>span:last-child{display:grid;gap:3px}
+.kcard .rm{font-family:var(--f-display);font-weight:800;font-size:26px;color:var(--torii);line-height:1.1}
+.kcard .nt{font-size:13px;color:var(--ink-soft);line-height:1.45}
+.kcard.w{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+.kcard.w .gl{font-size:26px;text-align:left;line-height:1.25}
+.kcard.w .rm{font-size:17px}
+.jp .kcard{border:1px solid var(--line);box-shadow:0 4px 12px rgba(90,60,30,.08)}
+.email-head.mini{padding:14px 16px;gap:6px}
+.email-head.mini h2{font-size:17px}
+.scene{margin:0;font-size:15px;line-height:1.55;color:var(--text)}
+.gcard{background:var(--card);color:var(--ink);border-radius:18px;padding:16px;display:grid;gap:8px;border:1px solid var(--line)}
+.gcard .pattern{font-family:var(--f-kana);font-weight:600;font-size:24px;color:var(--torii);line-height:1.3}
+.gcard p{margin:0;font-size:14px;color:var(--ink-soft);line-height:1.55}
+.gcard .ex{all:unset;cursor:pointer;display:grid;gap:2px;background:rgba(42,39,48,.05);border-radius:10px;padding:8px 12px}
+.gcard .ex b{font-family:var(--f-kana);font-size:17px;font-weight:600}
+.gcard .ex span{font-size:13px;color:var(--ink-soft)}
+.q-main>.label{margin:4px 0 -4px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0ms!important;transition-duration:.01ms!important}}
+</style>
+
+</head>
+<body>
+<div id="app" aria-live="polite"><div id="stage"></div><div class="toast" id="toast"></div></div>
+
+<script>
+(() => {
+"use strict";
+/* ================= STAGE 2 CONTENT: N5 ================= */
+/* vocab: "kana|kanji|english" · grammar q: [sentence with ＿＿, "correct/wrong/wrong/wrong", english] (first option is correct; shuffled at runtime) */
+const CHAPTERS = [
+ {id:"c1", jp:"関西空港", kana:"かんさいくうこう", name:"Kansai Airport", blurb:"Your first hour in Japan. Greetings, introductions, money.", gate:null, missions:[
+  {id:"m1", title:"Get through immigration", scene:"The officer looks up from your passport. Time for your first real Japanese words.",
+   v:["こんにちは||hello","ありがとう||thank you","すみません||excuse me / sorry","はい||yes","いいえ||no"],
+   g:{name:"A は B です", note:"“A is B.” は marks the topic and is read “wa”. です at the end makes the sentence polite.",
+      ex:[["わたしは リンです。","I am Lin."],["これは パスポートです。","This is a passport."]],
+      q:[["わたし＿＿ たなかです。","は/を/に/で","I am Tanaka."],["これは パスポート＿＿。","です/ます/か/の","This is a passport."],["＿＿、ちょっと いいですか。","すみません/ありがとう/はい/いいえ","Excuse me, do you have a moment?"]]}},
+  {id:"m2", title:"Introduce yourself", scene:"A friendly staff member at the arrival hall asks who you are.",
+   v:["わたし|私|I / me","なまえ|名前|name","にほん|日本|Japan","シンガポール||Singapore","ひと|人|person"],
+   g:{name:"A の B", note:"の links two nouns, like ’s or “of” in English. Add じん (人) to a country to say a nationality.",
+      ex:[["わたしの なまえは リンです。","My name is Lin."],["シンガポールじんです。","I'm Singaporean."]],
+      q:[["わたし＿＿ なまえは リンです。","の/は/を/に","My name is Lin."],["シンガポール＿＿です。","じん/ご/の/は","I'm Singaporean."],["これは わたし＿＿ パスポートです。","の/を/が/で","This is my passport."]]}},
+  {id:"m3", title:"Is this your bag?", scene:"Baggage claim. Three identical black suitcases. Someone points at one.",
+   v:["これ||this (near me)","それ||that (near you)","あれ||that (over there)","パスポート||passport","かばん|鞄|bag"],
+   g:{name:"〜ですか / じゃないです", note:"Add か to the end of a sentence to make a question. Say じゃないです for “is not”.",
+      ex:[["これは あなたの かばんですか。","Is this your bag?"],["いいえ、わたしの かばんじゃないです。","No, it isn't my bag."]],
+      q:[["これは あなたの かばんです＿＿。","か/よ/ね/の","Is this your bag?"],["いいえ、わたしの かばん＿＿。","じゃないです/です/ですか/がです","No, it isn't my bag."],["＿＿は なんですか。(far away)","あれ/これ/それ/どれ","What is that over there?"]]}},
+  {id:"m4", title:"Change money", scene:"The money exchange counter. Your Zen Miles convert at a terrible rate. Ask anyway.",
+   v:["いち|一|one","さん|三|three","じゅう|十|ten","ひゃく|百|hundred","せん|千|thousand"],
+   g:{name:"いくらですか / 〜えん / も", note:"いくら asks “how much”. Prices end in えん (yen). も means “also” and replaces は.",
+      ex:[["これは いくらですか。","How much is this?"],["それも ひゃくえんです。","That is also 100 yen."]],
+      q:[["これは ＿＿ですか。","いくら/なに/だれ/どこ","How much is this?"],["さんびゃく＿＿です。","えん/じん/ご/の","It's 300 yen."],["これ＿＿ ひゃくえんです。","も/を/に/で","This is also 100 yen."]]}},
+ ]},
+ {id:"c2", jp:"なんば駅", kana:"なんばえき", name:"Namba Station", blurb:"Trains, times and directions across Osaka.", gate:"icoca", missions:[
+  {id:"m5", title:"Find the platform", scene:"Namba Station has more exits than your old company had meetings. Ask for help.",
+   v:["えき|駅|station","でんしゃ|電車|train","きっぷ|切符|ticket","どこ||where","あそこ||over there"],
+   g:{name:"〜は どこですか", note:"Put the thing you are looking for before は, then どこですか: “Where is ...?” Answer with ここ / そこ / あそこ.",
+      ex:[["えきは どこですか。","Where is the station?"],["あそこです。","It's over there."]],
+      q:[["えきは ＿＿ですか。","どこ/だれ/なに/いつ","Where is the station?"],["トイレは ＿＿です。","あそこ/これ/だれ/いつ","The toilet is over there."],["きっぷ＿＿ どこですか。","は/を/に/で","Where are the tickets?"]]}},
+  {id:"m6", title:"Head to Kyoto", scene:"A day trip. Tell the station staff where you're going.",
+   v:["いきます|行きます|go","きます|来ます|come","かえります|帰ります|go home / return","おおさか|大阪|Osaka","きょうと|京都|Kyoto"],
+   g:{name:"[place] に / へ いきます · [vehicle] で", note:"に or へ marks where you are going. で marks how you get there (by train, by car).",
+      ex:[["きょうとに いきます。","I'm going to Kyoto."],["でんしゃで いきます。","I'm going by train."]],
+      q:[["きょうと＿＿ いきます。","に/を/が/の","I'm going to Kyoto."],["あした おおさか＿＿ かえります。","へ/を/で/が","Tomorrow I'll return to Osaka."],["でんしゃ＿＿ いきます。","で/に/を/は","I'll go by train."]]}},
+  {id:"m7", title:"Catch the right train", scene:"Japanese trains leave on the minute. You need to know the time.",
+   v:["いま|今|now","〜じ|〜時|o'clock","〜ふん|〜分|minutes","ごぜん|午前|a.m.","ごご|午後|p.m."],
+   g:{name:"なんじ · [time] に", note:"なんじですか asks the time. Put に after a clock time to say “at” that time.",
+      ex:[["いま なんじですか。","What time is it now?"],["ごご さんじに いきます。","I'll go at 3 p.m."]],
+      q:[["いま、なん＿＿ですか。","じ/ふん/えん/じん","What time is it now?"],["ごご さんじ＿＿ いきます。","に/で/を/が","I'll go at 3 p.m."],["でんしゃは くじ じゅうご＿＿です。","ふん/じ/えん/にち","The train is at 9:15."]]}},
+  {id:"m8", title:"From Namba to Umeda", scene:"Two stations, one subway line, zero idea which way. Plan the route.",
+   v:["つぎ|次|next","のります|乗ります|get on / ride","おります|降ります|get off","ちかてつ|地下鉄|subway","〜せん|〜線|... line"],
+   g:{name:"A から B まで · に のります", note:"から means “from”, まで means “until / as far as”. You ride ON a vehicle with に: でんしゃに のります.",
+      ex:[["なんばから うめだまで いきます。","I'm going from Namba to Umeda."],["ちかてつに のります。","I'll ride the subway."]],
+      q:[["なんば＿＿ うめだまで いきます。","から/まで/に/で","I'm going from Namba to Umeda."],["うめだ＿＿ なんぷんですか。","まで/から/を/の","How many minutes to Umeda?"],["でんしゃ＿＿ のります。","に/を/で/が","I'll get on the train."]]}},
+ ]},
+ {id:"c3", jp:"黒門市場", kana:"くろもんいちば", name:"Kuromon Market", blurb:"Order food, count things, describe how it tastes.", gate:"icoca", missions:[
+  {id:"m9", title:"Order lunch", scene:"A tiny counter. The chef nods at you. No English menu. Perfect.",
+   v:["みず|水|water","おちゃ|お茶|green tea","ごはん|ご飯|rice / meal","さかな|魚|fish","にく|肉|meat"],
+   g:{name:"〜を ください · A と B", note:"を ください means “... please” when asking for something. と joins nouns: A and B.",
+      ex:[["みずを ください。","Water, please."],["さかなと ごはんを ください。","Fish and rice, please."]],
+      q:[["みず＿＿ ください。","を/が/に/は","Water, please."],["おちゃを ＿＿。","ください/です/ます/か","Tea, please."],["さかな＿＿ にくを ください。","と/の/を/に","Fish and meat, please."]]}},
+  {id:"m10", title:"Buy by the piece", scene:"A takoyaki stall. The queue behind you is growing. Count fast.",
+   v:["ひとつ|一つ|one (thing)","ふたつ|二つ|two (things)","みっつ|三つ|three (things)","たこやき|たこ焼き|takoyaki","りんご||apple"],
+   g:{name:"Counting with 〜つ", note:"For general objects, count ひとつ, ふたつ, みっつ... Put the number after を, right before ください.",
+      ex:[["りんごを ふたつ ください。","Two apples, please."],["みっつで いくらですか。","How much for three?"]],
+      q:[["りんごを ＿＿ ください。(2)","ふたつ/ひとつ/みっつ/ふたり","Two apples, please."],["たこやきを ひとつ ＿＿。","ください/ですか/あります/します","One takoyaki, please."],["みっつで ＿＿ですか。","いくら/いつ/どこ/だれ","How much for three?"]]}},
+  {id:"m11", title:"Taste everything", scene:"Free samples on every corner. The vendors want your verdict.",
+   v:["おいしい|美味しい|delicious","からい|辛い|spicy","あまい|甘い|sweet","たかい|高い|expensive","やすい|安い|cheap"],
+   g:{name:"い-adjectives · 〜くないです", note:"い-adjectives go straight before です. For “not”, swap the final い for くないです: からい → からくないです.",
+      ex:[["この たこやきは おいしいです。","This takoyaki is delicious."],["あまり からくないです。","It's not very spicy."]],
+      q:[["この たこやきは ＿＿です。","おいしい/おいしいだ/おいしくて/おいしな","This takoyaki is delicious."],["この カレーは からく＿＿。","ないです/いです/です/だです","This curry isn't spicy."],["＿＿ りんごですね。","あまい/あまいな/あまく/あまいの","What a sweet apple."]]}},
+  {id:"m12", title:"Chat with the vendor", scene:"The fishmonger asks if you like Osaka. You do.",
+   v:["げんき|元気|well / energetic","しずか|静か|quiet","にぎやか|賑やか|lively","きれい|綺麗|pretty / clean","すき|好き|like"],
+   g:{name:"な-adjectives · 〜が すき", note:"な-adjectives take な before a noun: しずかな みせ. For “not”, use じゃないです. You like something with が すきです.",
+      ex:[["にぎやかな いちばですね。","What a lively market."],["わたしは さかなが すきです。","I like fish."]],
+      q:[["にぎやか＿＿ いちばですね。","な/の/い/だ","What a lively market."],["わたしは さかな＿＿ すきです。","が/を/に/で","I like fish."],["この みせは しずか＿＿。","じゃないです/くないです/ないです/ではないだ","This shop isn't quiet."]]}},
+ ]},
+ {id:"c4", jp:"レンタカー", kana:"れんたかー", name:"Car Rental Counter", blurb:"Verbs, past tense and polite requests.", gate:"car", missions:[
+  {id:"m13", title:"Fill in the form", scene:"The rental clerk asks about your plans. Answer with real verbs.",
+   v:["たべます|食べます|eat","のみます|飲みます|drink","みます|見ます|see / watch","かいます|買います|buy","します||do"],
+   g:{name:"〜ます / 〜ません · を", note:"Polite verbs end in ます. Swap to ません for the negative. を marks the object of the verb.",
+      ex:[["まいにち ごはんを たべます。","I eat rice every day."],["おさけは のみません。","I don't drink alcohol."]],
+      q:[["まいにち ごはんを たべ＿＿。","ます/ません/ました/ましょう","I eat rice every day."],["おさけは のみ＿＿。(I don't)","ません/ます/ました/ましょう","I don't drink alcohol."],["なに＿＿ かいますか。","を/が/に/で","What will you buy?"]]}},
+  {id:"m14", title:"Yesterday's story", scene:"The clerk is chatty. What did you do yesterday?",
+   v:["きのう|昨日|yesterday","きょう|今日|today","あした|明日|tomorrow","くるま|車|car","うんてん|運転|driving"],
+   g:{name:"〜ました / 〜ませんでした", note:"Past tense: ます → ました. Past negative: ません → ませんでした.",
+      ex:[["きのう くるまを かりました。","I rented a car yesterday."],["テレビを みませんでした。","I didn't watch TV."]],
+      q:[["きのう くるまを かい＿＿。","ました/ます/ません/ましょう","I bought a car yesterday."],["きのう テレビを み＿＿。(didn't)","ませんでした/ません/ました/ないでした","I didn't watch TV yesterday."],["あした うんてん＿＿ します。","を/が/に/で","I'll drive tomorrow."]]}},
+  {id:"m15", title:"Show your licence", scene:"Paperwork. The clerk gives instructions very, very politely.",
+   v:["まちます|待ちます|wait","みせます|見せます|show","かきます|書きます|write","めんきょ|免許|licence","じゅうしょ|住所|address"],
+   g:{name:"〜て ください", note:"To ask someone to do something, use the て-form + ください. かきます → かいて, まちます → まって, みせます → みせて.",
+      ex:[["めんきょを みせて ください。","Please show your licence."],["ちょっと まって ください。","Please wait a moment."]],
+      q:[["めんきょを みせ＿＿。","て ください/ます ください/て くださ/た ください","Please show your licence."],["ここに じゅうしょを か＿＿ ください。","いて/いた/きて/って","Please write your address here."],["ちょっと まっ＿＿ ください。","て/た/で/に","Please wait a moment."]]}},
+  {id:"m16", title:"Ask permission", scene:"Keys in hand. A few last questions before you hit the road.",
+   v:["ちず|地図|map","みち|道|road / way","ガソリン||petrol","ひだり|左|left","みぎ|右|right"],
+   g:{name:"〜ても いいですか", note:"て-form + も いいですか asks “May I ...?” Turn with に: みぎに まがって ください.",
+      ex:[["ちずを みても いいですか。","May I look at the map?"],["みぎに まがって ください。","Please turn right."]],
+      q:[["ちずを みても ＿＿か。","いいです/いいます/いいでした/いいの","May I look at the map?"],["みぎ＿＿ まがって ください。","に/を/で/が","Please turn right."],["しゃしんを とって＿＿ いいですか。","も/は/が/を","May I take a photo?"]]}},
+ ]},
+ {id:"c5", jp:"田舎道", kana:"いなかみち", name:"Countryside Drive", blurb:"What exists where, what you want, how it was.", gate:"car", missions:[
+  {id:"m17", title:"Spot the scenery", scene:"Rice fields, then mountains, then a dog that seems to own the road.",
+   v:["いえ|家|house","やま|山|mountain","かわ|川|river","いぬ|犬|dog","ねこ|猫|cat"],
+   g:{name:"が あります / が います", note:"あります is for things and plants. います is for people and animals. Both mean “there is”.",
+      ex:[["あそこに やまが あります。","There's a mountain over there."],["いえの まえに いぬが います。","There's a dog in front of the house."]],
+      q:[["あそこに やまが ＿＿。","あります/います/です/します","There's a mountain over there."],["いえの まえに いぬが ＿＿。","います/あります/いきます/です","There's a dog in front of the house."],["かわ＿＿ ありますか。","が/を/で/へ","Is there a river?"]]}},
+  {id:"m18", title:"Where exactly?", scene:"A cat is hiding somewhere in this abandoned shed.",
+   v:["うえ|上|on / above","した|下|under / below","なか|中|inside","まえ|前|in front","うしろ|後ろ|behind"],
+   g:{name:"A の [position] に", note:"Say where something is with A の + position word + に: つくえの したに (under the desk).",
+      ex:[["ねこは つくえの したに います。","The cat is under the desk."],["いえの うしろに かわが あります。","There's a river behind the house."]],
+      q:[["ねこは つくえの ＿＿に います。(under)","した/うえ/なか/まえ","The cat is under the desk."],["いえ＿＿ うしろに かわが あります。","の/に/を/が","There's a river behind the house."],["はこの なか＿＿ なにが ありますか。","に/で/を/が","What's inside the box?"]]}},
+  {id:"m19", title:"Say what you want", scene:"A rest stop by the sea. You realise you never want to go back.",
+   v:["すみます|住みます|live (reside)","はたらきます|働きます|work","やすみます|休みます|rest","いなか|田舎|countryside","うみ|海|sea"],
+   g:{name:"〜たいです", note:"To say you want to do something, swap ます for たいです. Negative: たくないです.",
+      ex:[["いなかに すみたいです。","I want to live in the countryside."],["もう はたらきたくないです。","I don't want to work anymore."]],
+      q:[["いなかに すみ＿＿です。","たい/ます/たく/ない","I want to live in the countryside."],["もう はたらき＿＿ないです。","たく/たい/まし/ませ","I don't want to work anymore."],["すこし やすみたい＿＿。","です/ます/ください/します","I want to rest a little."]]}},
+  {id:"m20", title:"Review the drive", scene:"Evening at the ryokan. The owner asks how your day was.",
+   v:["たのしい|楽しい|fun","ふるい|古い|old (things)","あたらしい|新しい|new","ひろい|広い|spacious","せまい|狭い|cramped"],
+   g:{name:"Adjectives in the past", note:"い-adjectives: い → かったです (たのしかったです). Not: くなかったです. な-adjectives: でした.",
+      ex:[["ドライブは たのしかったです。","The drive was fun."],["しずかでした。","It was quiet."]],
+      q:[["ドライブは たのし＿＿です。","かった/いった/かて/くた","The drive was fun."],["その いえは ふるく＿＿。","なかったです/ないでした/なかったでした/ありません","That house wasn't old."],["しずか＿＿。(was quiet)","でした/かったです/くなかった/いでした","It was quiet."]]}},
+ ]},
+ {id:"c6", jp:"空き家", kana:"あきや", name:"Akiya Viewings", blurb:"Describe houses, compare them, talk to the agent.", gate:"agent", missions:[
+  {id:"m21", title:"Tour the house", scene:"The agent slides open a wooden door. Dust, tatami and potential.",
+   v:["だいどころ|台所|kitchen","にわ|庭|garden","へや|部屋|room","まど|窓|window","やね|屋根|roof"],
+   g:{name:"A は B が [adj]", note:"“As for A, its B is ...”: この いえは にわが ひろいです (This house has a big garden). いくつ asks how many.",
+      ex:[["この いえは にわが ひろいです。","This house has a spacious garden."],["へやは いくつ ありますか。","How many rooms are there?"]],
+      q:[["この いえは にわ＿＿ ひろいです。","が/を/に/で","This house has a spacious garden."],["へやは ＿＿ ありますか。","いくつ/いくら/どこ/だれ","How many rooms are there?"],["だいどころは ちょっと ＿＿です。","ふるい/ふるく/ふるかっ/ふるな","The kitchen is a bit old."]]}},
+  {id:"m22", title:"Compare two houses", scene:"One house by the mountains, one near town. The agent waits.",
+   v:["おおきい|大きい|big","ちいさい|小さい|small","ちかい|近い|near","とおい|遠い|far","まち|町|town"],
+   g:{name:"A は B より · A の ほうが", note:"A は B より [adj]: A is more [adj] than B. A の ほうが [adj]: A is the more [adj] one.",
+      ex:[["この いえは あの いえより おおきいです。","This house is bigger than that one."],["やまの いえの ほうが しずかです。","The mountain house is quieter."]],
+      q:[["この いえは あの いえ＿＿ おおきいです。","より/ほう/から/まで","This house is bigger than that one."],["やまの いえ＿＿ ほうが しずかです。","の/が/は/に","The mountain house is the quieter one."],["どちら＿＿ ちかいですか。","が/を/は/に","Which one is closer?"]]}},
+  {id:"m23", title:"Talk to the agent", scene:"Tea at the agent's office. Time to sound like you know what you're doing.",
+   v:["ふどうさんや|不動産屋|real estate agent","ねだん|値段|price","いっしょに|一緒に|together","もういちど|もう一度|once more","かんがえます|考えます|think about"],
+   g:{name:"〜ましょう · ね / よ", note:"ましょう means “let's”. ね at the end asks for agreement (isn't it?). よ tells the listener something new.",
+      ex:[["いっしょに みに いきましょう。","Let's go see it together."],["ねだんは やすいですね。","The price is cheap, isn't it?"]],
+      q:[["いっしょに みに いき＿＿。","ましょう/ませ/まし/ません","Let's go see it together."],["ねだんは やすいです＿＿。(agreeing)","ね/か/を/に","The price is cheap, isn't it?"],["もういちど かんがえ＿＿。","ます/たい/て/ましょ","I'll think about it once more."]]}},
+  {id:"m24", title:"Make the call", scene:"You've seen enough. Explain why this is the one.",
+   v:["たいへん|大変|tough / hard","だいじょうぶ|大丈夫|okay / all right","ゆめ|夢|dream","しごと|仕事|work / job","やめます|辞めます|quit"],
+   g:{name:"〜から (because)", note:"Put から after a reason: しずかですから = because it's quiet. The result comes after.",
+      ex:[["しずかですから、この いえが すきです。","Because it's quiet, I like this house."],["しごとを やめました。","I quit my job."]],
+      q:[["しずかです＿＿、この いえが すきです。","から/まで/より/へ","Because it's quiet, I like this house."],["しごと＿＿ やめました。","を/が/に/で","I quit my job."],["だいじょうぶ＿＿か。","です/ます/だ/でし","Are you okay?"]]}},
+ ]},
+];
+const SHOP_GATES = {
+  icoca:{name:"ICOCA train pass", jp:"イコカ", price:500, needs:["c1"], unlocks:"Namba Station and Kuromon Market", desc:"Tap in on any train or subway in Kansai."},
+  car:{name:"Rental car (kei car)", jp:"けいじどうしゃ", price:1500, needs:["c2","c3"], unlocks:"the Car Rental Counter and the Countryside Drive", desc:"A tiny yellow-plate car. Perfect for narrow village roads."},
+  agent:{name:"Akiya agent fee", jp:"ふどうさんや", price:1500, needs:["c4","c5"], unlocks:"Akiya Viewings", desc:"A local agent who knows every empty house in the valley."},
+};
+const FOODS = [
+  {id:"onigiri", name:"Onigiri", jp:"おにぎり", price:60, pct:.1, n:3, desc:"+10% Zen Miles for your next 3 sessions."},
+  {id:"takoyaki", name:"Takoyaki", jp:"たこやき", price:120, pct:.25, n:3, desc:"+25% Zen Miles for your next 3 sessions."},
+  {id:"okonomiyaki", name:"Okonomiyaki", jp:"おこのみやき", price:200, pct:.5, n:3, desc:"+50% Zen Miles for your next 3 sessions."},
+];
+const AKIYA = [
+  {id:"nara", place:"Yoshino, Nara", price:4500, jp:"やまの いえです。ふるいですが、ひろいです。にわが あります。", en:"A mountain house. It's old, but spacious. It has a garden.", rooms:"5 rooms · built 1962"},
+  {id:"wakayama", place:"Kushimoto, Wakayama", price:6000, jp:"うみの ちかくの いえです。まどから うみが みえます。", en:"A house near the sea. You can see the ocean from the window.", rooms:"4 rooms · built 1974"},
+  {id:"kyoto", place:"Miyama, Kyoto", price:8000, jp:"かやぶき やねの いえです。とても しずかで、きれいです。", en:"A thatched-roof house. Very quiet and beautiful.", rooms:"6 rooms · built 1931"},
+];
+
+
+/* ================= STAGE 1 DATA: KANA ================= */
+const TICKET = 6000, MASTER = 3, INTERVAL = [0,1,1,2,4,7,12], SAVE_KEY = "owtj-save-v1";
+const BASE = [
+ ["あ row",[["あ","a"],["い","i"],["う","u"],["え","e"],["お","o"]]],
+ ["か row",[["か","ka"],["き","ki"],["く","ku"],["け","ke"],["こ","ko"]]],
+ ["さ row",[["さ","sa"],["し","shi"],["す","su"],["せ","se"],["そ","so"]]],
+ ["た row",[["た","ta"],["ち","chi"],["つ","tsu"],["て","te"],["と","to"]]],
+ ["な row",[["な","na"],["に","ni"],["ぬ","nu"],["ね","ne"],["の","no"]]],
+ ["は row",[["は","ha"],["ひ","hi"],["ふ","fu"],["へ","he"],["ほ","ho"]]],
+ ["ま row",[["ま","ma"],["み","mi"],["む","mu"],["め","me"],["も","mo"]]],
+ ["や・わ rows",[["や","ya"],["ゆ","yu"],["よ","yo"],["わ","wa"],["を","wo"]]],
+ ["ら row + ん",[["ら","ra"],["り","ri"],["る","ru"],["れ","re"],["ろ","ro"],["ん","n"]]],
+];
+const DAKU = [
+ ["が row",[["が","ga"],["ぎ","gi"],["ぐ","gu"],["げ","ge"],["ご","go"]]],
+ ["ざ row",[["ざ","za"],["じ","ji"],["ず","zu"],["ぜ","ze"],["ぞ","zo"]]],
+ ["だ row",[["だ","da"],["ぢ","ji"],["づ","zu"],["で","de"],["ど","do"]]],
+ ["ば row",[["ば","ba"],["び","bi"],["ぶ","bu"],["べ","be"],["ぼ","bo"]]],
+ ["ぱ row",[["ぱ","pa"],["ぴ","pi"],["ぷ","pu"],["ぺ","pe"],["ぽ","po"]]],
+];
+const Y = (c,r) => [[c+"ゃ",r+"a"],[c+"ゅ",r+"u"],[c+"ょ",r+"o"]];
+const YOON = [
+ ["きゃ・しゃ combos",[...Y("き","ky"),...Y("し","sh")]],
+ ["ちゃ・にゃ combos",[...Y("ち","ch"),...Y("に","ny")]],
+ ["ひゃ・みゃ combos",[...Y("ひ","hy"),...Y("み","my")]],
+ ["りゃ・ぎゃ combos",[...Y("り","ry"),...Y("ぎ","gy")]],
+ ["じゃ・びゃ・ぴゃ combos",[...Y("じ","j"),...Y("び","by"),...Y("ぴ","py")]],
+];
+const MNEM = {
+ "あ":"A cross with a big swooping loop. Ahh!","い":"Two eels side by side: ee.","う":"Someone bent over going oo, ouch.","え":"A bird on a branch asking eh?","お":"Like あ, plus a little dash flying off: oh!",
+ "か":"A blade with a slash beside it: ka-rate!","き":"A key with two teeth: ki.","く":"An open beak calling cu-ckoo: ku.","け":"A keg standing next to a post: ke.","こ":"Two short strokes, a pair of coins: ko.",
+ "さ":"A boat's sail with a crossbar: sa.","し":"A fishing hook. She fishes: shi.","す":"A rope with a loop, a swing: su.","せ":"Looks like a tiny 'se' tucked in a box.","そ":"A zig-zag thread from sewing: so.",
+ "た":"The letters t and a squeezed together: ta.","ち":"A cheerleader leaning back: chi.","つ":"One rolling wave, tsunami: tsu.","て":"A tail hanging down: te.","と":"A toe with a thorn in it: to.",
+ "な":"A nun kneeling by a cross: na.","に":"A knee next to two lines: ni.","ぬ":"Noodles hanging off chopsticks: nu.","ね":"Like ぬ with a curled cat tail. Neko!: ne.","の":"A No-entry swirl: no.",
+ "は":"A laughing H with a loop: ha!","ひ":"A wide grin: hee hee.","ふ":"Mount Fuji with drifting clouds: fu.","へ":"A gentle hill. Heh: he.","ほ":"は with an extra roof bar: ho.",
+ "ま":"Mama with a loop of hair: ma.","み":"A swirly 21 shape: mi.","む":"A cow's face with a tail: moo.","め":"An eye with lashes. Me means eye.","も":"A hook with two worms: more bait, mo.",
+ "や":"A yak with horns: ya.","ゆ":"A fish swimming upstream: yu.","よ":"A yo-yo on its string: yo.","わ":"Like ね, but without the loop: wa.","を":"Said 'o'. Used almost only as the object particle.",
+ "ら":"A rabbit with one ear up: ra.","り":"Two reeds by the river: ri.","る":"A loop at the end of the route: ru.","れ":"Like ね, but the tail kicks out: re.","ろ":"る without its loop, a straight road: ro.","ん":"Like a lowercase n with a tail. The only single consonant.",
+};
+const CONF_SETS = [["さ","ち","き"],["ぬ","め"],["ね","れ","わ"],["る","ろ"],["は","ほ","け"],["い","り"],["こ","に"],["あ","お"],["シ","ツ"],["ソ","ン"],["ク","ケ","タ"],["ア","マ"],["コ","ユ","ロ"],["チ","テ"],["ウ","ワ","フ"],["ヌ","ス"],["ノ","メ"],["シ","ン"],["ツ","ソ"]];
+const CONF = {}; CONF_SETS.forEach(s => s.forEach(g => (CONF[g] = (CONF[g]||[]).concat(s.filter(x => x !== g)))));
+
+const toKata = s => [...s].map(c => { const k = c.charCodeAt(0); return k >= 0x3041 && k <= 0x3096 ? String.fromCharCode(k + 0x60) : c; }).join("");
+const REG = {};               // every learnable item, by id
+const GROUPS = [], ITEMS = {}, ALL = [];
+function addGroup(script, kind, label, pairs){
+  const id = "g" + GROUPS.length;
+  const items = pairs.map(([g,r]) => { const gg = script === "kata" ? toKata(g) : g; const it = {id:gg, type:"kana", g:gg, r, script, kind, group:id, hira:g}; ITEMS[gg] = it; REG[gg] = it; ALL.push(it); return it; });
+  GROUPS.push({id, idx:GROUPS.length, script, kind, label: script === "kata" ? toKata(label) : label, items});
+}
+["hira","kata"].forEach(s => { BASE.forEach(([l,p]) => addGroup(s,"base",l,p)); DAKU.forEach(([l,p]) => addGroup(s,"daku",l,p)); YOON.forEach(([l,p]) => addGroup(s,"yoon",l,p)); });
+
+/* stage 2 registry */
+const MISSIONS = [], VOCAB = [], GRAMQ = [];
+CHAPTERS.forEach((ch, ci) => ch.missions.forEach((m, mi) => {
+  m.ch = ch; m.no = MISSIONS.length + 1; MISSIONS.push(m);
+  m.vocab = m.v.map(s => { const [kana, kanji, en] = s.split("|"); const it = {id:"v:" + kana, type:"vocab", kana, kanji, en, m, ch}; REG[it.id] = it; VOCAB.push(it); return it; });
+  m.gq = m.g.q.map((q, n) => { const it = {id:"q:" + m.id + ":" + n, type:"gram", s:q[0], opts:q[1].split("/"), en:q[2], m, ch}; REG[it.id] = it; GRAMQ.push(it); return it; });
+}));
+const chById = id => CHAPTERS.find(c => c.id === id);
+
+function noteFor(it){
+  const kata = it.script === "kata";
+  if (it.kind === "base") return kata ? "Hiragana: " + it.hira : (MNEM[it.g] || "");
+  if (it.kind === "daku") {
+    const code = it.hira.charCodeAt(0), p = it.r[0] === "p";
+    const baseH = String.fromCharCode(code - (p ? 2 : 1)), base = kata ? toKata(baseH) : baseH;
+    const same = it.hira === "ぢ" ? "じ" : it.hira === "づ" ? "ず" : "";
+    return `${base} + ${p ? "゜" : "゛"}` + (same ? ` · same sound as ${kata ? toKata(same) : same}` : "");
+  }
+  return `${it.g[0]} + small ${it.g[1]}`;
+}
+
+const JOBS = {
+  analyst:{title:"Junior Analyst",boss:"Boss from Hell",ini:"BH",color:"#3d4a5f",tag:"Excel at 2am. Month-end never ends.",
+    lines:["Reconcile this before 8am.","Put this in the deck. And Excel.","Cells not linked. Fix tonight.","EOD means 11:59pm.","All comments in red.","Should take 15 mins. (It won't.)"]},
+  marketing:{title:"Marketing Executive",boss:"Bossy Boss",ini:"BB",color:"#7d4256",tag:"“Make the logo bigger.” Round 14.",
+    lines:["Love it. Try a totally different one?","Resize for IG, TikTok and MRT. By lunch.","Make it pop more.","New direction. Same deadline.","Pitch moved to 8am.","Brainstorm at 6:30pm?"]},
+  engineer:{title:"Software Engineer",boss:"The Micromanager",ini:"MM",color:"#405546",tag:"3am pager. 45-minute stand-ups.",
+    lines:["Prod is down. Also, do this.","Story points: 1. (It's 8.)","Failed QA. Priority P0.","Quick call? Bringing 9 people.","Added to sprint. Nothing removed.","Pager alert, 3:12am."]},
+};
+const SUBJ = [L => `URGENT: ${L}`, L => `RE: FW: ${L}`, L => `Quick sync: ${L}`, L => `Per my last email: ${L}`, L => `Action required: ${L}`,
+  L => `Circle back: ${L}`, L => `Kindly revert: ${L}`, L => `Follow-up: ${L}`, L => `Need it yesterday: ${L}`, L => `Reminder (3rd): ${L}`];
+const TIMES = ["9:04am","9:41am","10:17am","10:52am","11:36am","12:48pm","1:27pm","2:09pm","3:18pm","4:06pm","4:41pm","5:00pm"];
+const COMMUTE = ["MRT delayed 12 minutes. Signalling fault, again.","Kopi-o kosong from the canteen. It is not helping.","Your boss sent an email at 2:13am. Subject: “thoughts”.","Rain on the CTE. You arrive damp and already behind.","Someone booked a recurring meeting over your lunch.","Lift lobby queue of 40 people. You take the stairs to level 23.","Calendar: “Quick catch-up”. 60 minutes. No agenda.","Your status says Available. You are not.","The office aircon is set to Hokkaido in January.","Three new group chats were created overnight. You are in all of them."];
+const MORNING = ["The konbini clerk said いらっしゃいませ and you understood it.","A crow outside the guesthouse window. Not a single email.","Breakfast: tamago kake gohan. Nobody booked a meeting over it.","The 7:58 train left at exactly 7:58.","Rain in Osaka. You don't mind. There's no cubicle to get to.","Your old boss posted on LinkedIn about “hustle”. You're eating onigiri by the river.","The guesthouse owner taught you a new word over coffee.","You slept eight hours. You forgot that was possible."];
+const CLOCKOUT = ["8:47pm","9:12pm","9:58pm","10:31pm","7:55pm","11:04pm"];
+const WEEKDAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
+
+/* ================= STATE ================= */
+let S = null;
+const fresh = () => ({v:1,stage:1,name:"",gender:"",char:0,clearDay:0,clearN:0,tasks:0,syncDone:0,job:"",day:1,miles:0,items:{},done:{},standupDay:0,resignDay:0,perfDay:0,ticket:false,skipped:false,placed:false,earned:0,
+  osakaStart:0,done2:{},owned:{},buff:null,cert:false,examDay:0,akiya:null,reviewDay:0});
+function save(){ try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch(e){} }
+function load(){ try { const s = JSON.parse(localStorage.getItem(SAVE_KEY)); if (s && s.v === 1 && s.name) { if (!s.char) s.char = s.gender === "f" ? 2 : 1; return Object.assign(fresh(), s); } } catch(e){} return null; }
+const st = id => (S.items[id] ||= {box:0,due:0,lb:0,esc:false,eh:0});
+const boxOf = id => (S.items[id]||{}).box || 0;
+const isMastered = id => boxOf(id) >= MASTER;
+const masteredCount = sc => ALL.filter(it => (!sc || it.script === sc) && isMastered(it.g)).length;
+const kanaLearning = () => ALL.filter(it => { const b = boxOf(it.g); return b > 0 && b < MASTER; }).length;
+const dueIds = () => Object.keys(S.items).filter(id => REG[id] && S.items[id].box > 0 && S.items[id].due <= S.day).sort((a,b) => S.items[a].due - S.items[b].due);
+const escIds = () => Object.keys(S.items).filter(id => REG[id] && S.items[id].esc);
+const learnedKana = () => ALL.filter(it => boxOf(it.g) > 0);
+const nextGroups = n => GROUPS.filter(g => !S.done[g.id]).slice(0, n);
+const reviewPending = () => dueIds().length > 0 && (S.stage === 2 ? S.reviewDay !== S.day : S.standupDay !== S.day);
+const weekday = d => WEEKDAYS[(d-1) % 5];
+const clearedToday = () => S.clearDay === S.day ? S.clearN : 0;
+const canClockOut = () => clearedToday() >= 3;
+const syncPending = () => Math.floor((S.tasks || 0) / 9) > (S.syncDone || 0);
+const calCount = () => (reviewPending() ? 1 : 0) + (syncPending() ? 1 : 0) + (canClockOut() ? 1 : 0);
+const job = () => JOBS[S.job] || JOBS.analyst;
+const osakaDay = () => S.day - S.osakaStart + 1;
+function addMiles(n){ n = Math.round(n); S.miles += n; S.earned += n; return n; }
+function bump(id){ const s = st(id); if (s.lb === S.day) { s.due = Math.max(s.due, S.day + 1); return false; } const was = s.box; s.box = Math.min(s.box + 1, INTERVAL.length - 1); s.lb = S.day; s.due = S.day + INTERVAL[s.box]; return was < MASTER && s.box >= MASTER; }
+function slip(id){ const s = st(id); s.box = 1; s.due = S.day + 1; s.lb = S.day; s.esc = true; s.eh = 0; }
+function masterNow(id){ const s = st(id); const was = s.box; s.box = Math.max(s.box, MASTER); s.lb = S.day; s.due = Math.max(s.due, S.day + INTERVAL[s.box]); s.esc = false; return was < MASTER; }
+function seed(id){ const s = st(id); if (s.box < 1) { s.box = 1; s.due = S.day + 1; s.lb = S.day; } }
+/* stage 2 progress */
+const chDone = ch => ch.missions.every(m => S.done2[m.id]);
+const chOpen = ch => !ch.gate || S.owned[ch.gate] || S.cert;
+const gateReady = gid => S.cert || SHOP_GATES[gid].needs.every(c => chDone(chById(c)));
+const vocabMastered = () => VOCAB.filter(v => isMastered(v.id)).length;
+const gramPointDone = m => m.gq.every(q => isMastered(q.id));
+const gramMastered = () => MISSIONS.filter(gramPointDone).length;
+const buffMult = () => S.buff && S.buff.left > 0 ? 1 + S.buff.pct : 1;
+function useBuff(){ if (S.buff && S.buff.left > 0) { S.buff.left--; if (!S.buff.left) S.buff = null; } }
+
+/* ================= UTIL ================= */
+const $ = (sel, el = document) => el.querySelector(sel);
+const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];
+const stage = $("#stage");
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.random() * a.length | 0];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = n => Math.round(n).toLocaleString("en-SG");
+const isJP = () => S && S.stage === 2;
+let current = null;
+function screen(html, cls = ""){ stage.innerHTML = `<div class="screen ${cls}">${html}</div>`; const el = stage.firstElementChild; current = el; return el; }
+let toastT;
+function toast(html, ms = 2200){ const t = $("#toast"); t.innerHTML = html; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), ms); }
+function hold(btn, first, run){
+  let armed = false, t; const orig = btn.innerHTML;
+  btn.addEventListener("click", () => { if (armed) { clearTimeout(t); run(); return; } armed = true; btn.innerHTML = first; SFX.play("tap"); t = setTimeout(() => { armed = false; btn.innerHTML = orig; }, 3500); });
+}
+const fill = (s, ans) => s.replace("＿＿", ans).replace(/\s*\(.*?\)\s*$/, "");
+
+/* ================= ICONS ================= */
+const I = {
+  mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg>',
+  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>',
+  fire:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c4 0 7-2.7 7-6.6 0-3.8-3-6.2-4-9.4-1.2 2-2.2 3-3.6 3.4C11 6 10 4.5 9.6 3 7 6 5 9.3 5 14.4 5 18.3 8 21 12 21Z"/><path d="M12 21c-1.8 0-3-1.3-3-3 0-2 1.5-3 3-5 1.5 2 3 3 3 5 0 1.7-1.2 3-3 3Z"/></svg>',
+  ticket:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5V6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v2a3.5 3.5 0 0 0 0 7v2a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-2a3.5 3.5 0 0 0 0-7Z"/><path d="M14.5 5v14" stroke-dasharray="2 2.5"/></svg>',
+  map:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6z"/><path d="M9 4v14M15 6v14"/></svg>',
+  sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>',
+  shop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16l-1 11H5z"/><path d="M8.5 9V7a3.5 3.5 0 0 1 7 0v2"/></svg>',
+  chart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>',
+  house:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 11 12 3.5l9.5 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-5.5h4V20"/></svg>',
+  car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16V11l2-5h12l2 5v5z"/><path d="M4 11h16"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/></svg>',
+  train:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></svg>',
+  key:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 8-8M16 7l3 3"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+  moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>',
+  plane:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 15.5v-1.8L13.5 9V3.8a1.5 1.5 0 0 0-3 0V9l-8 4.7v1.8l8-2.4v5.2l-2 1.5v1.4l3.5-1 3.5 1v-1.4l-2-1.5v-5.2Z" transform="rotate(90 12 12)"/></svg>',
+  soundOn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/></svg>',
+  soundOff:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="m16 9.5 5 5M21 9.5l-5 5"/></svg>',
+  speak:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4.5 4.5 0 0 1 0 6"/></svg>',
+  close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  start:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  clip:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l1 2h3v14H5V6h3z"/><path d="M9 12l2 2 4-4"/></svg>',
+  door:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4H6v16h8M10 12h10M17 9l3 3-3 3"/></svg>',
+  coin:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#d3a23c"/><circle cx="12" cy="12" r="7.3" fill="none" stroke="#7a5714" stroke-width="1.2"/><path d="M8.3 9.2h7.4l-7 6.2h7.2" fill="none" stroke="#5d410c" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+};
+const GATE_ICON = {icoca:I.train, car:I.car, agent:I.key};
+function avatar(){ return `<img class="av" src="char${(S && S.char) || 1}.webp" alt="">`; }
+
+/* ================= SOUND ================= */
+const SFX = {
+  ctx:null, on:true, noise:null,
+  init(){ try { if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); if (this.ctx.state === "suspended") this.ctx.resume(); } catch(e){} },
+  tone(f, at, dur, type = "sine", vol = .14, to){
+    const c = this.ctx, o = c.createOscillator(), g = c.createGain(); o.type = type; o.frequency.setValueAtTime(f, at);
+    if (to) o.frequency.exponentialRampToValueAtTime(to, at + dur);
+    g.gain.setValueAtTime(0, at); g.gain.linearRampToValueAtTime(vol, at + .008); g.gain.exponentialRampToValueAtTime(.0001, at + dur);
+    o.connect(g).connect(c.destination); o.start(at); o.stop(at + dur + .02);
+  },
+  pluck(f, at, vol = .2){
+    const c = this.ctx, o = c.createOscillator(), o2 = c.createOscillator(), g = c.createGain(), lp = c.createBiquadFilter(), g2 = c.createGain();
+    o.type = "triangle"; o2.type = "sawtooth"; o.frequency.setValueAtTime(f * 1.004, at); o.frequency.exponentialRampToValueAtTime(f, at + .08); o2.frequency.value = f;
+    g2.gain.value = .25; lp.type = "lowpass"; lp.frequency.setValueAtTime(f * 6, at); lp.frequency.exponentialRampToValueAtTime(f * 1.5, at + .6);
+    g.gain.setValueAtTime(0, at); g.gain.linearRampToValueAtTime(vol, at + .004); g.gain.exponentialRampToValueAtTime(.0001, at + 1.1);
+    o.connect(lp); o2.connect(g2).connect(lp); lp.connect(g).connect(c.destination); o.start(at); o2.start(at); o.stop(at + 1.2); o2.stop(at + 1.2);
+  },
+  hiss(at, dur, from, to, vol = .2){
+    const c = this.ctx; if (!this.noise) { const b = c.createBuffer(1, c.sampleRate * 2, c.sampleRate), d = b.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; this.noise = b; }
+    const s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(); s.buffer = this.noise; f.type = "bandpass"; f.Q.value = .8;
+    f.frequency.setValueAtTime(from, at); f.frequency.exponentialRampToValueAtTime(to, at + dur);
+    g.gain.setValueAtTime(0, at); g.gain.linearRampToValueAtTime(vol, at + dur * .4); g.gain.exponentialRampToValueAtTime(.0001, at + dur);
+    s.connect(f).connect(g).connect(c.destination); s.start(at); s.stop(at + dur + .05);
+  },
+  play(name){
+    if (!this.on) return; this.init(); const c = this.ctx; if (!c) return; const t = c.currentTime + .01;
+    const mi = [293.7, 311.1, 392, 440, 466.2, 587.3, 622.3, 784];
+    switch (name) {
+      case "tap": this.tone(1400, t, .03, "triangle", .05); break;
+      case "ding": this.tone(1318.5, t, .25, "sine", .12); this.tone(1760, t + .09, .4, "sine", .1); break;
+      case "correct": this.tone(880, t, .12, "sine", .13); this.tone(1318.5, t + .07, .22, "sine", .12); break;
+      case "wrong": this.tone(196, t, .28, "square", .05, 140); this.tone(185, t + .02, .26, "sawtooth", .03, 130); break;
+      case "coin": this.tone(1568, t, .07, "square", .045); this.tone(2093, t + .06, .16, "square", .04); break;
+      case "meeting": this.tone(523, t, .09, "triangle", .14); this.tone(784, t + .12, .09, "triangle", .14); this.tone(659, t + .24, .2, "triangle", .12); break;
+      case "bell": this.pluck(mi[5], t, .18); this.pluck(mi[3], t + .25, .16); break;
+      case "mastered": [0,2,3,5,7].forEach((n,i) => this.pluck(mi[n], t + i * .09, .16)); break;
+      case "koto": [0,2,4,3,5].forEach((n,i) => this.pluck(mi[n], t + i * .16, .2)); break;
+      case "stamp": this.hiss(t, .12, 900, 200, .35); this.tone(90, t, .25, "sine", .3, 50); break;
+      case "clockout": this.tone(784, t, .2, "sine", .1); this.tone(659, t + .18, .2, "sine", .1); this.tone(523, t + .36, .4, "sine", .1); break;
+      case "night": [7,5,3,2,0].forEach((n,i) => this.pluck(mi[n] / 2, t + i * .22, .14)); break;
+      case "jet": this.hiss(t, 2.4, 300, 2600, .16); this.tone(110, t, 2.4, "sawtooth", .02, 220); break;
+      case "buy": this.tone(1046.5, t, .08, "triangle", .1); this.tone(1318.5, t + .07, .08, "triangle", .1); this.tone(1568, t + .14, .25, "triangle", .1); break;
+      case "fanfare": [0,2,4,5,7].forEach((n,i) => this.pluck(mi[n], t + i * .12, .2)); this.pluck(mi[7], t + .75, .22); this.pluck(mi[5], t + .75, .16); break;
+    }
+  },
+};
+let JA = null, UTT = null, voiceWarned = false;
+function loadVoices(){ try { const vs = speechSynthesis.getVoices(); JA = vs.find(v => /^ja[-_]?jp/i.test(v.lang)) || vs.find(v => /^ja/i.test(v.lang)) || null; return vs.length; } catch(e){ return 0; } }
+try { loadVoices(); if (speechSynthesis.addEventListener) speechSynthesis.addEventListener("voiceschanged", loadVoices); else speechSynthesis.onvoiceschanged = loadVoices; } catch(e){}
+function speak(text){
+  if (!SFX.on) return;
+  try {
+    const ss = window.speechSynthesis; if (!ss || !window.SpeechSynthesisUtterance) return;
+    if (!JA) { const n = loadVoices(); if (n && !JA && !voiceWarned) { voiceWarned = true; toast("No Japanese voice on this device, so pronunciation is off.", 3000); } }
+    if (ss.speaking || ss.pending) ss.cancel();
+    const u = new SpeechSynthesisUtterance(text); u.lang = "ja-JP"; u.rate = .85; u.volume = 1; if (JA) u.voice = JA;
+    UTT = u; ss.resume(); ss.speak(u);
+  } catch(e){}
+}
+
+/* ================= FALLING LEAVES ================= */
+function leaves(canvas, count = 16){
+  const ctx = canvas.getContext("2d"), reduce = matchMedia("(prefers-reduced-motion: reduce)").matches, cols = ["#cc4527","#e5863a","#d9612f","#e9a23f","#b8381f"];
+  let W = 0, H = 0; const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const size = () => { const r = canvas.getBoundingClientRect(); W = r.width; H = r.height; canvas.width = W * dpr; canvas.height = H * dpr; ctx.setTransform(dpr,0,0,dpr,0,0); };
+  size();
+  const L = Array.from({length:count}, () => ({x:Math.random()*W, y:Math.random()*H, s:6+Math.random()*9, vy:.35+Math.random()*.7, vx:-.2+Math.random()*.4, r:Math.random()*6.28, vr:-.02+Math.random()*.04, ph:Math.random()*6.28, c:pick(cols)}));
+  function leaf(l){
+    ctx.save(); ctx.translate(l.x, l.y); ctx.rotate(l.r); ctx.fillStyle = l.c; ctx.globalAlpha = .85; ctx.beginPath();
+    for (let i = 0; i < 14; i++) { const a = -Math.PI/2 + (i / 14) * Math.PI * 2, odd = i % 2, lobe = i % 4 === 0 ? 1 : .78; const rr = odd ? l.s * .42 : l.s * lobe; ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); }
+    ctx.closePath(); ctx.fill(); ctx.strokeStyle = l.c; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0, l.s * 1.1); ctx.stroke(); ctx.restore();
+  }
+  function frame(){
+    if (!canvas.isConnected) return; ctx.clearRect(0,0,W,H);
+    L.forEach(l => { l.ph += .02; l.y += l.vy; l.x += l.vx + Math.sin(l.ph) * .5; l.r += l.vr; if (l.y > H + 20) { l.y = -20; l.x = Math.random() * W; } leaf(l); });
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  frame();
+  window.addEventListener("resize", size);
+}
+
+/* ================= QUESTION BUILDERS ================= */
+function kanaOptions(item){
+  const used = new Set([item.r]), usedG = new Set([item.g]), picks = [];
+  const add = c => { if (picks.length < 3 && c && !used.has(c.r) && !usedG.has(c.g)) { picks.push(c); used.add(c.r); usedG.add(c.g); } };
+  shuffle((CONF[item.g]||[]).map(g => ITEMS[g])).forEach(add);
+  shuffle(GROUPS.find(g => g.id === item.group).items).forEach(add);
+  shuffle(ALL.filter(it => it.script === item.script && it.kind === item.kind)).forEach(add);
+  shuffle(ALL.filter(it => it.script === item.script)).forEach(add);
+  return shuffle([item, ...picks]);
+}
+function vocabOptions(item, key){
+  const used = new Set([item[key]]), picks = [];
+  const add = c => { if (picks.length < 3 && !used.has(c[key])) { picks.push(c); used.add(c[key]); } };
+  shuffle(item.m.vocab).forEach(add); shuffle(VOCAB.filter(v => v.ch === item.ch)).forEach(add); shuffle(VOCAB).forEach(add);
+  return shuffle([item, ...picks]);
+}
+const DIRS = {kana:["g2r","r2g"], vocab:["j2e","e2j"], gram:["fill"]};
+const Q = (id, dir) => ({id, dir: dir || pick(DIRS[REG[id].type])});
+function buildQ(q){
+  const it = REG[q.id];
+  if (it.type === "kana") {
+    const g2r = q.dir === "g2r", o = kanaOptions(it);
+    return {...q, it, ask: g2r ? "WHICH SOUND IS THIS?" : "WHICH KANA MAKES THIS SOUND?", say: it.g,
+      prompt: g2r ? `<div class="glyph ${it.g.length > 1 ? "long" : ""}">${it.g}</div>` : `<div class="roma">${it.r}</div><div class="twin">${it.script === "hira" ? "hiragana" : "katakana"}</div>`,
+      speakBtn: g2r, opts: o.map(x => ({html: g2r ? x.r : x.g, cls: g2r ? "" : "kana", ok: x === it})), reveal:`<b>${it.g}</b> = ${it.r}`};
+  }
+  if (it.type === "vocab") {
+    const j2e = q.dir === "j2e", o = vocabOptions(it, j2e ? "en" : "kana"), long = it.kana.length;
+    const size = long <= 3 ? 64 : long <= 5 ? 48 : long <= 7 ? 38 : 30;
+    return {...q, it, ask: j2e ? "WHAT DOES THIS MEAN?" : "HOW DO YOU SAY THIS?", say: it.kana,
+      prompt: j2e ? `<div class="word" style="font-size:${size}px">${it.kana}</div>${it.kanji ? `<div class="kanji">${it.kanji}</div>` : ""}` : `<div class="eng">${esc(it.en)}</div>`,
+      speakBtn: j2e, opts: o.map(x => ({html: j2e ? esc(x.en) : x.kana, cls: j2e ? "en" : "kw", ok: x === it})), reveal:`<b>${it.kana}</b>${it.kanji ? " (" + it.kanji + ")" : ""} = ${esc(it.en)}`};
+  }
+  const o = shuffle(it.opts.map((x, i) => ({html: x, cls:"kw", ok: i === 0})));
+  return {...q, it, ask:"FILL THE BLANK", say: fill(it.s, it.opts[0]),
+    prompt:`<div class="sent">${esc(it.s).replace("＿＿", '<span class="blank">　</span>')}</div><div class="gloss">${esc(it.en)}</div>`,
+    speakBtn:false, opts:o, reveal:`<b>${esc(fill(it.s, it.opts[0]))}</b><br>${esc(it.en)}`};
+}
+
+/* ================= QUIZ ENGINE ================= */
+function runQuiz(cfg){
+  const queue = cfg.questions.map(buildQ);
+  const requeues = new Map(), firstSeen = new Set();
+  const stats = {correct:0, wrong:0, total:queue.length, miles:0, missed:new Set(), right:new Set(), mastered:[]};
+  let done = 0, locked = false, keyHandler = null;
+  const el = screen(`
+    <div class="q-top pad">
+      <div class="row"><div style="min-width:0"><div class="q-kicker">${esc(cfg.kicker)}</div><div class="q-title">${esc(cfg.title)}</div></div>
+        <button class="icon-btn" id="qx" aria-label="Leave">${I.close}</button></div>
+      <div class="q-bar"><i id="qbar"></i></div>
+    </div>
+    <div class="q-main pad" id="qm"></div>`, isJP() ? "jp" : "");
+  const leave = $("#qx", el);
+  hold(leave, I.close, () => { document.removeEventListener("keydown", keyHandler); cfg.onExit ? cfg.onExit() : home(); });
+  leave.addEventListener("click", () => { if (!leave.dataset.tip) { leave.dataset.tip = 1; toast("Tap × again to leave. Progress in this session is lost.", 2200); } });
+  const qm = $("#qm", el), bar = $("#qbar", el);
+  function render(){
+    if (!queue.length) { document.removeEventListener("keydown", keyHandler); cfg.onDone(stats); return; }
+    bar.style.width = (done / (done + queue.length) * 100) + "%";
+    const q = queue[0];
+    qm.innerHTML = `
+      <div class="card" id="card"><span class="ask">${q.ask}</span>
+        ${q.prompt}</div>
+      <div class="opts">${q.opts.map((o, i) => `<button class="o ${o.cls}" data-i="${i}"><span class="k">${i+1}</span>${o.html}</button>`).join("")}
+        ${cfg.idk ? `<button class="o idk" data-i="idk">I don't know this one</button>` : ""}</div>
+      <div class="fb" id="fb"></div>`;
+    const t0 = performance.now(); locked = false;
+    $$(".o", qm).forEach(b => b.addEventListener("click", () => choose(b, q, t0)));
+  }
+  function choose(b, q, t0){
+    if (locked) return; locked = true;
+    const ms = performance.now() - t0, idx = b.dataset.i, chosen = idx === "idk" ? null : q.opts[+idx], ok = !!(chosen && chosen.ok);
+    const first = !firstSeen.has(q.id); firstSeen.add(q.id);
+    const card = $("#card", qm), fb = $("#fb", qm);
+    speak(q.say);
+    $$(".o", qm).forEach(x => { const o = q.opts[+x.dataset.i]; if (o && o.ok) x.classList.add("ok"); else if (x !== b) x.classList.add("dim"); });
+    if (ok) {
+      stats.correct++; stats.right.add(q.id);
+      const res = (cfg.onAnswer && cfg.onAnswer(q, true, first && !q.retry, ms)) || {};
+      let gain = res.miles || 0;
+      if (gain && cfg.buff) gain = Math.round(gain * buffMult());
+      if (gain) { addMiles(gain); stats.miles += gain; card.insertAdjacentHTML("beforeend", `<span class="float">+${gain}</span>`); SFX.play("coin"); }
+      if (res.mastered) stats.mastered.push(q.id);
+      SFX.play("correct");
+      queue.shift(); done++;
+      setTimeout(render, q.it.type === "gram" ? 900 : gain ? 650 : 520);
+    } else {
+      stats.wrong++; stats.missed.add(q.id);
+      if (idx !== "idk") b.classList.add("bad");
+      card.classList.add("shake"); SFX.play(idx === "idk" ? "tap" : "wrong");
+      if (cfg.onAnswer) cfg.onAnswer(q, false, first && !q.retry, ms);
+      queue.shift(); done++;
+      const n = requeues.get(q.id) || 0;
+      if (cfg.requeue && n < 2) { requeues.set(q.id, n + 1); const at = Math.min(queue.length, 2 + (Math.random() * 3 | 0)); queue.splice(at, 0, {...buildQ(Q(q.id, q.dir)), retry:true}); }
+      fb.innerHTML = `<div class="msg">${q.reveal}${cfg.requeue && n < 2 ? `<br><span style="color:var(--soft);font-size:12.5px">It'll come back in a moment.</span>` : ""}</div><button class="btn btn-paper btn-sm" id="nx">Next</button>`;
+      const nx = $("#nx", fb); nx.focus({preventScroll:true}); nx.addEventListener("click", () => { SFX.play("tap"); render(); });
+    }
+  }
+  keyHandler = e => {
+    if (!qm.isConnected) { document.removeEventListener("keydown", keyHandler); return; }
+    if (/^[1-4]$/.test(e.key) && !locked) { const b = $(`.o[data-i="${+e.key - 1}"]`, qm); if (b) b.click(); }
+    else if ((e.key === "Enter" || e.key === " ") && locked) { const nx = $("#nx", qm); if (nx) { e.preventDefault(); nx.click(); } }
+  };
+  document.addEventListener("keydown", keyHandler);
+  render();
+}
+const labelOf = id => { const it = REG[id]; return it.type === "kana" ? it.g : it.type === "vocab" ? it.kana : fill(it.s, it.opts[0]).replace(/。$/, ""); };
+
+function results(o){
+  const el = screen(`<div class="res pad">
+    ${o.stamp ? `<div class="stamp ${o.stampColor || "green"}">${o.stamp}</div>` : ""}
+    <h2>${o.title}</h2><p class="sub">${o.sub}</p>
+    <div class="score"><div><small>Score</small><b>${o.score}</b></div><div><small>Zen Miles</small><b class="gold">+${fmt(o.miles || 0)}</b></div></div>
+    ${o.mastered && o.mastered.length ? `<div><span class="label">Newly mastered</span><div class="chips">${o.mastered.map(id => `<span class="chip k">${esc(labelOf(id))}</span>`).join("")}</div></div>` : ""}
+    ${o.missed && o.missed.length ? `<div><span class="label">${o.missedLabel || "Keep an eye on"}</span><div class="chips">${o.missed.map(id => `<span class="chip k">${esc(labelOf(id))}</span>`).join("")}</div></div>` : ""}
+    <div class="stack" style="margin-top:6px"><button class="btn btn-red" id="r1">${o.btn || (isJP() ? "Back to Osaka" : "Back to inbox")}</button>${o.btn2 ? `<button class="btn btn-ghost" id="r2">${o.btn2}</button>` : ""}</div>
+  </div>`, isJP() ? "jp" : "");
+  if (o.mastered && o.mastered.length) setTimeout(() => SFX.play("mastered"), 250);
+  $("#r1", el).addEventListener("click", () => { SFX.play("tap"); (o.next || home)(); });
+  if (o.btn2) $("#r2", el).addEventListener("click", () => { SFX.play("tap"); o.next2(); });
+  save();
+}
+
+/* ================= COMMON SCREENS ================= */
+function soundBtn(extra = ""){ return `<button class="icon-btn ${extra}" data-sound aria-label="Toggle sound">${SFX.on ? I.soundOn : I.soundOff}</button>`; }
+function wireSound(el){ $$("[data-sound]", el).forEach(b => b.addEventListener("click", () => { SFX.on = !SFX.on; try { localStorage.setItem("owtj-sound", SFX.on ? "1" : "0"); } catch(e){} b.innerHTML = SFX.on ? I.soundOn : I.soundOff; SFX.play("tap"); })); }
+function home(tab){ if (!S) return titleScreen(); if (S.stage === 2) hub2(tab); else hub(tab); }
+
+function titleScreen(){
+  const saved = load();
+  const where = saved ? (saved.stage === 2 ? "Osaka day " + (saved.day - saved.osakaStart + 1) : "Day " + saved.day) : "";
+  const el = screen(`
+    <div class="bg" style="background-image:url(japan.jpg)"></div><div class="title-sky"></div>
+    <canvas class="leaf-canvas"></canvas>
+    ${soundBtn("corner-btn")}
+    <div class="title-head pad">
+      <div><p class="title-kicker">日本への片道切符</p><h1 class="title-h1">One Way<em>— to —</em>Japan</h1></div>
+      <div class="hanko" aria-hidden="true">片道</div>
+    </div>
+    <div class="title-foot pad">
+      ${saved ? `<button class="btn btn-red" id="cont">Continue as ${esc(saved.name)} · ${where}</button><button class="btn btn-paper" id="newg">Start a new life</button>`
+              : `<button class="btn btn-red" id="newg">Start a new life</button>`}
+      <p class="title-note">Learn Japanese. Escape the office.</p>
+    </div>`, "title-screen");
+  leaves($(".leaf-canvas", el));
+  wireSound(el);
+  const cont = $("#cont", el);
+  if (cont) cont.addEventListener("click", () => { SFX.play("koto"); S = saved; if (S.stage === 2) hub2(); else if (S.ticket) hub("ticket"); else if (S.placed) hub(); else placementScreen(); });
+  const ng = $("#newg", el);
+  const begin = () => { SFX.play("koto"); S = fresh(); storyScreen(); };
+  if (saved) hold(ng, "Tap again to erase all progress", begin); else ng.addEventListener("click", begin);
+}
+
+function storyScreen(){
+  const el = screen(`
+    <div class="bg" style="background-image:url(singapore.jpg)"></div><div class="shade"></div>
+    ${soundBtn("corner-btn")}
+    <div class="story pad">
+      <p class="time" style="animation-delay:.1s">RAFFLES PLACE · 7:48PM</p>
+      <p style="animation-delay:.5s"><b>47 unread emails.</b> Again.</p>
+      <p style="animation-delay:1.1s">In rural Japan, an empty house, an <span class="jpw">空き家</span> <b>akiya</b>, costs less than a year's rent here.</p>
+      <p style="animation-delay:1.7s">Learn Japanese. Earn Zen Miles. <b>Buy a one-way ticket.</b></p>
+      <button class="btn btn-red" id="go" style="animation:rise .7s ease 2.1s both">Make the plan ${I.start}</button>
+    </div>`);
+  wireSound(el);
+  $("#go", el).addEventListener("click", () => { SFX.play("tap"); setupScreen(); });
+}
+
+function setupScreen(){
+  const el = screen(`
+    <div class="setup-top"><div class="bg" style="background-image:url(office.jpg)"></div><h2 class="pad">Employee profile</h2></div>
+    <div class="scroll pad"><div class="form">
+      <div><label class="label" for="nm">Your name</label><input class="input" id="nm" maxlength="20" autocomplete="off" placeholder="e.g. Wei Ling" value="${esc(S.name)}"></div>
+      <div><span class="label">Choose your character</span><div class="chars ${S.char ? "has" : ""}" id="chars">
+        ${[1,2,3,4].map(n => `<button class="ch" data-c="${n}" aria-pressed="${S.char === n}" aria-label="Character ${n}"><img src="char${n}.webp" alt=""></button>`).join("")}
+      </div></div>
+      <div><span class="label">Occupation</span><div class="stack">
+        ${Object.entries(JOBS).map(([k,j]) => `<button class="opt" data-j="${k}" aria-pressed="${S.job === k}"><div class="job"><b>${j.title}</b><span class="tag">${j.tag}</span></div></button>`).join("")}
+      </div></div>
+    </div></div>
+    <div class="sticky-foot pad"><button class="btn btn-red" id="go" disabled>Sign the plan</button></div>`);
+  const nm = $("#nm", el), go = $("#go", el);
+  const check = () => { go.disabled = !(nm.value.trim() && S.char && S.job); };
+  nm.addEventListener("input", () => { S.name = nm.value.trim(); check(); });
+  $$("[data-c]", el).forEach(b => b.addEventListener("click", () => { S.char = +b.dataset.c; $$("[data-c]", el).forEach(x => x.setAttribute("aria-pressed", x === b)); $("#chars", el).classList.add("has"); SFX.play("tap"); check(); }));
+  $$("[data-j]", el).forEach(b => b.addEventListener("click", () => { S.job = b.dataset.j; $$("[data-j]", el).forEach(x => x.setAttribute("aria-pressed", x === b)); SFX.play("tap"); check(); }));
+  nm.addEventListener("keydown", e => { if (e.key === "Enter") nm.blur(); });
+  go.addEventListener("click", () => { S.name = nm.value.trim(); SFX.play("ding"); save(); placementScreen(); });
+  check();
+}
+
+function placementScreen(){
+  const el = screen(`
+    <div class="bg" style="background-image:url(office.jpg)"></div><div class="shade"></div>
+    <div class="place pad">
+      <h2>Where do you start?</h2>
+      <p>Master 208 kana. Earn ${fmt(TICKET)} Zen Miles. Fly.</p>
+      <button class="choice" id="zero"><b><span class="ic">${I.mail}</span>New Project</b><span>Start from zero.</span></button>
+      <button class="choice" id="diag"><b><span class="ic">${I.clip}</span>Ongoing</b><span>Placement test. Skip what you know.</span></button>
+      <button class="choice red" id="resign"><b><span class="ic">${I.door}</span>Write your Resignation!</b><span>Score 27/30 and fly now.</span></button>
+    </div>`);
+  $("#zero", el).addEventListener("click", () => { S.placed = true; save(); SFX.play("ding"); hub("inbox"); });
+  $("#diag", el).addEventListener("click", () => { SFX.play("tap"); startDiagnostic(); });
+  const rz = $("#resign", el);
+  if (S.resignDay === S.day) { rz.disabled = true; $("span:last-child", rz).textContent = "HR says try again tomorrow."; }
+  rz.addEventListener("click", () => { SFX.play("tap"); startResign(() => placementScreen()); });
+}
+
+/* ================= STAGE 1: OFFICE HUB ================= */
+let hubTab = "inbox";
+function hub(tab){
+  if (tab) hubTab = tab;
+  if (!["inbox","cal","esc","ticket"].includes(hubTab)) hubTab = "inbox";
+  const m = masteredCount(), l = kanaLearning(), escN = escIds().length, unread = nextGroups(3).length;
+  const el = screen(`
+    <header class="hub-top"><div class="bg" style="background-image:url(office.jpg)"></div>
+      <div class="hub-in pad">
+        <div class="row"><div class="who">${avatar()}<div><b>${esc(S.name)}</b><span>${job().title}</span></div></div>${soundBtn()}</div>
+        <div class="row"><div class="miles">${I.coin}<b>${fmt(S.miles)}</b><span>ZEN MILES</span></div><div class="day">DAY ${S.day}<small>${weekday(S.day).toUpperCase()} · WEEK ${Math.ceil(S.day/5)}</small></div></div>
+        <div class="prog"><div class="prog-bar"><i class="m" style="width:${m/208*100}%"></i><i class="l" style="width:${l/208*100}%"></i></div>
+          <div class="prog-txt"><span><b>${m}</b>/208 kana mastered</span><span>${l} in progress</span></div></div>
+      </div></header>
+    <main class="scroll pad tab-body" id="tb"></main>
+    <nav class="tabs" role="tablist">
+      ${[["inbox","Task Inbox",I.mail,unread && !reviewPending() ? unread : 0],["cal","Calendar",I.cal,calCount()],["esc","Escalations",I.fire,escN],["ticket","Ticket",I.ticket,0]]
+        .map(([k,n,ic,b]) => `<button role="tab" data-tab="${k}" aria-selected="${hubTab===k}">${ic}${n}${b ? `<span class="badge">${b}</span>` : ""}</button>`).join("")}
+    </nav>`);
+  wireSound(el);
+  $$("[data-tab]", el).forEach(b => b.addEventListener("click", () => { if (hubTab !== b.dataset.tab) { SFX.play("tap"); hub(b.dataset.tab); } }));
+  ({inbox:renderInbox, cal:renderCal, esc:renderEsc, ticket:renderTicket})[hubTab]($("#tb", el));
+  save();
+}
+function senderFor(g){
+  if (g.idx === 0) return {name:"HR Ops", ini:"HR", color:"#5a6fa6"};
+  if (g.script === "kata" && g.kind === "base" && g.label.startsWith("ア")) return {name:"Org Announcements", ini:"OA", color:"#6b5a8e"};
+  const j = job(); return g.idx % 4 === 3 ? {name:"IT Security", ini:"IT", color:"#4c6670"} : {name:j.boss, ini:j.ini, color:j.color};
+}
+function emailFor(g, slot = 0){
+  const j = job(), L = g.label;
+  let subject = SUBJ[g.idx % SUBJ.length](L), body = j.lines[g.idx % j.lines.length];
+  if (g.idx === 0) { subject = "Onboarding: " + L; body = "Mandatory. Please acknowledge."; }
+  if (g.script === "kata" && g.kind === "base" && g.label.startsWith("ア")) { subject = "Restructure: " + L; body = "You now also cover Katakana. No pay change."; }
+  return {subject, body, time: TIMES[Math.min(slot, TIMES.length - 1)], sender: senderFor(g)};
+}
+function renderInbox(tb){
+  const locked = reviewPending(), groups = nextGroups(4), base = clearedToday(), left = GROUPS.filter(g => !S.done[g.id]).length;
+  let html = "";
+  if (canClockOut() && !locked) html += `<button class="btn btn-red clock-btn" id="co">${I.door} Clock out?</button>`;
+  if (S.ticket) html += `<div class="banner gold"><p><b>Ticket booked.</b> Osaka is waiting.</p><button class="btn btn-red btn-sm" id="s2">Fly to Osaka</button></div>`;
+  if (locked) html += `<div class="banner"><p><b>Stand-up first.</b> ${dueIds().length} kana to recap.</p><button class="btn btn-red btn-sm" id="su">Join stand-up</button></div>`;
+  html += `<div class="sec-h"><h3>Task Inbox</h3><span>${left ? left + " unread" : ""}</span></div>`;
+  if (!groups.length) html += `<div class="empty"><b>Inbox zero.</b>Keep up the stand-ups until every kana is mastered.</div>`;
+  groups.forEach((g, i) => {
+    const e = emailFor(g, base + i), queued = i === 3;
+    html += `<button class="mail unread ${locked ? "locked" : ""} ${queued ? "queued" : ""}" data-g="${g.id}" data-t="${e.time}" ${locked || queued ? 'tabindex="-1"' : ""}>
+      <span class="ini" style="background:${e.sender.color}">${e.sender.ini}</span>
+      <span class="mail-m"><span class="mail-top"><b class="mail-s">${esc(e.subject)}</b><time>${queued ? "queued" : e.time}</time></span>
+      <span class="mail-sub kn">${g.items.map(it => it.g).join(" ")}</span></span></button>`;
+  });
+  tb.innerHTML = html;
+  const su = $("#su", tb); if (su) su.addEventListener("click", startStandup);
+  const s2 = $("#s2", tb); if (s2) s2.addEventListener("click", ending);
+  const co = $("#co", tb); if (co) co.addEventListener("click", clockOut);
+  $$(".mail[data-g]", tb).forEach((b, i) => { if (i < 3) b.addEventListener("click", () => { SFX.play("ding"); openEmail(GROUPS.find(g => g.id === b.dataset.g), b.dataset.t); }); });
+}
+function settingsHTML(){ return `<div class="sec-h"><h3>Settings</h3></div><button class="danger-link" data-act="title">Back to title screen</button><button class="danger-link" data-act="reset">Erase all progress</button>`; }
+function wireSettings(tb){
+  $('[data-act="title"]', tb).addEventListener("click", () => { SFX.play("tap"); titleScreen(); });
+  hold($('[data-act="reset"]', tb), "Tap again to erase everything", () => { try { localStorage.removeItem(SAVE_KEY); } catch(e){} S = null; titleScreen(); });
+}
+function renderCal(tb){
+  const due = dueIds().length, suDone = S.standupDay === S.day, left = 9 - ((S.tasks || 0) % 9), done = clearedToday();
+  let html = `<div class="sec-h"><h3>${weekday(S.day)} · Day ${S.day}</h3><span>${done} task${done === 1 ? "" : "s"} done today</span></div>`;
+  html += `<div class="event ${reviewPending() ? "hot" : ""}"><time>9:00am</time><div><b>Daily stand-up</b>
+    ${due ? `<p>${due} kana to recap.</p><button class="btn btn-red btn-sm" data-act="su">${suDone ? "Join follow-up" : "Join stand-up"}</button>` : `<p>Nothing to recap.</p>${suDone ? '<span class="done">ATTENDED ✓</span>' : ""}`}</div></div>`;
+  html += `<div class="event ${syncPending() ? "hot" : ""}"><time>2:00pm</time><div><b>Performance Sync-up</b>
+    ${syncPending() ? `<p>Ready. 15 questions, bonus miles.</p><button class="btn btn-red btn-sm" data-act="sync">Join sync-up</button>` : `<p>After ${left} more task${left === 1 ? "" : "s"}.</p>`}</div></div>`;
+  html += `<div class="event ${canClockOut() ? "hot" : ""}"><time>6:00pm</time><div><b>Clock out</b>
+    <p>${canClockOut() ? "3 tasks done. Go home." : `${3 - done} more task${3 - done === 1 ? "" : "s"} to go.`}</p><button class="btn ${canClockOut() ? "btn-red" : "btn-ghost"} btn-sm" data-act="out">Clock out</button></div></div>`;
+  if (!S.ticket) html += `<div class="event"><time>any</time><div><b>Resignation letter</b><p>27/30 to pass and fly.</p>${S.resignDay === S.day ? '<span class="muted">Try again tomorrow</span>' : '<button class="btn btn-ghost btn-sm" data-act="resign">Write letter</button>'}</div></div>`;
+  html += settingsHTML();
+  tb.innerHTML = html;
+  const on = (a, f) => { const b = $(`[data-act="${a}"]`, tb); if (b) b.addEventListener("click", f); };
+  on("su", startStandup); on("sync", startSync); on("resign", () => startResign(() => hub("cal")));
+  const out = $('[data-act="out"]', tb);
+  if (reviewPending()) hold(out, "Skip stand-up?", clockOut); else out.addEventListener("click", clockOut);
+  wireSettings(tb);
+}
+function renderEsc(tb){
+  const ids = escIds();
+  let html = `<div class="sec-h"><h3>Escalations</h3><span>${ids.length} open</span></div>`;
+  if (!ids.length) html += `<div class="empty"><b>No escalations.</b>Kana you miss in stand-ups land here.</div>`;
+  else html += `<div class="banner calm"><p>Answer each right twice to close it.</p><div class="chips">${ids.map(id => `<span class="chip k">${esc(labelOf(id))}</span>`).join("")}</div><button class="btn btn-red btn-sm" id="fix">Fix escalations</button></div>`;
+  tb.innerHTML = html;
+  const f = $("#fix", tb); if (f) f.addEventListener("click", () => startEsc(() => hub("esc")));
+}
+function kanaBoard(){
+  let html = `<div class="board"><div class="legend"><span><i style="background:var(--mbg)"></i>Mastered</span><span><i style="background:rgba(229,134,58,.4)"></i>Learning</span><span><i style="background:var(--chip)"></i>Not yet</span><span><i style="box-shadow:inset 0 0 0 1.5px var(--torii)"></i>Mistake</span></div>`;
+  [["hira","Hiragana"],["kata","Katakana"]].forEach(([sc,name]) => {
+    html += `<div><h4>${name} · ${masteredCount(sc)}/104</h4><div class="kgrid">${ALL.filter(it => it.script === sc).map(it => { const s = S.items[it.g] || {}; const c = s.box >= MASTER ? "m" : s.box > 0 ? "l" : ""; return `<button class="kc ${c} ${s.esc ? "e" : ""}" data-k="${it.g}" aria-label="${it.g} ${it.r}">${it.g}</button>`; }).join("")}</div></div>`;
+  });
+  return html + `</div>`;
+}
+function wireBoard(tb){ $$(".kc[data-k]", tb).forEach(b => b.addEventListener("click", () => { const it = ITEMS[b.dataset.k]; speak(it.g); toast(`<b>${it.g}</b> = ${it.r}`, 1400); })); }
+function renderTicket(tb){
+  const h = masteredCount("hira"), k = masteredCount("kata"), mi = Math.min(S.miles, TICKET), ready = h === 104 && k === 104 && S.miles >= TICKET;
+  const bar = (v, t) => `<div class="req-bar"><i class="${v >= t ? "ok" : ""}" style="width:${v/t*100}%"></i></div>`;
+  let html = `<div class="pass"><div class="pass-h"><span>BOARDING PASS</span><span>${S.ticket ? "CONFIRMED" : "ONE WAY"}</span></div>
+    <div class="pass-b">
+      <div class="route"><div><b>SIN</b><span>Singapore</span></div>${I.plane}<div><b>KIX</b><span>Osaka Kansai</span></div></div>
+      <div class="pass-meta"><div><small>PASSENGER</small><b>${esc(S.name.toUpperCase())}</b></div><div><small>CLASS</small><b>Economy</b></div><div><small>RETURN</small><b>None</b></div></div>
+      ${S.ticket ? `<button class="btn btn-red" id="go2">Fly to Osaka (Stage 2)</button>`
+       : `<div class="req">
+        <div class="req-row"><div class="t"><span>Hiragana mastered</span><span>${h}/104</span></div>${bar(h,104)}</div>
+        <div class="req-row"><div class="t"><span>Katakana mastered</span><span>${k}/104</span></div>${bar(k,104)}</div>
+        <div class="req-row"><div class="t"><span>Zen Miles</span><span>${fmt(mi)}/${fmt(TICKET)}</span></div>${bar(mi,TICKET)}</div></div>
+      <button class="btn btn-red" id="buy" ${ready ? "" : "disabled"}>${ready ? "Buy one-way ticket · " + fmt(TICKET) + " ZM" : "Not yet"}</button>`}
+    </div></div>` + kanaBoard();
+  tb.innerHTML = html;
+  wireBoard(tb);
+  const buy = $("#buy", tb); if (buy) buy.addEventListener("click", () => { S.miles -= TICKET; S.ticket = true; save(); ending(); });
+  const g2 = $("#go2", tb); if (g2) g2.addEventListener("click", ending);
+}
+function clockOut(){
+  SFX.play("clockout");
+  const late = pick(CLOCKOUT); S.day += 1; save();
+  const due = dueIds().length;
+  const el = screen(`<div class="bg" style="background-image:url(singapore.jpg);background-position:30% center"></div><div class="shade"></div>
+    <div class="day-in pad">
+      <p class="meta">CLOCKED OUT AT ${late.toUpperCase()}</p>
+      <div class="wd">${weekday(S.day)} · Week ${Math.ceil(S.day/5)}</div><div class="big">Day ${S.day}</div>
+      <p>${pick(COMMUTE)}</p>
+      ${due ? `<p style="color:var(--momiji)">${due} kana to recap.</p>` : ""}
+      <button class="btn btn-red" id="in">Clock in</button>
+    </div>`);
+  $("#in", el).addEventListener("click", () => { SFX.play(reviewPending() ? "meeting" : "tap"); hub("inbox"); });
+}
+
+/* ---------- STAGE 1 LESSON ---------- */
+function openEmail(g, time){
+  const e = emailFor(g);
+  const el = screen(topBar(`${esc(e.sender.name).toUpperCase()} · ${time || e.time}`, g.label) + `
+    <div class="q-main pad">
+      <div class="email-head mini"><h2>${esc(e.subject)}</h2><p>${esc(e.body)}</p></div>
+      <span class="label">Attachment · tap to hear</span>
+      <div class="att-list">${g.items.map((it, k) => `<button class="kcard" data-k="${k}"><span class="gl ${it.g.length > 1 ? "long" : ""}">${it.g}</span><span><span class="rm">${it.r}</span><span class="nt">${esc(noteFor(it))}</span></span></button>`).join("")}</div>
+    </div>
+    <div class="sticky-foot pad"><button class="btn btn-red" id="go">Start practice</button></div>`);
+  $("#qx", el).addEventListener("click", () => { SFX.play("tap"); hub("inbox"); });
+  $$(".kcard", el).forEach(b => b.addEventListener("click", () => { $$(".kcard", el).forEach(x => x.classList.toggle("on", x === b)); speak(g.items[+b.dataset.k].g); }));
+  $("#go", el).addEventListener("click", () => { SFX.play("tap"); lessonQuiz(g); });
+}
+function lessonQuiz(g){
+  const qs = shuffle(g.items.map(it => Q(it.g, "g2r"))).concat(shuffle(g.items.map(it => Q(it.g, "r2g"))));
+  runQuiz({kicker:"PRACTICE", title:g.label, questions:qs, requeue:true, onExit:() => hub("inbox"),
+    onAnswer:(q, ok) => ok ? {miles:5} : {},
+    onDone:stats => {
+      S.done[g.id] = true; g.items.forEach(it => seed(it.g));
+      stats.miles += addMiles(40);
+      if (S.clearDay !== S.day) { S.clearDay = S.day; S.clearN = 0; }
+      S.clearN++; S.tasks = (S.tasks || 0) + 1;
+      const sync = S.tasks % 9 === 0, co = S.clearN === 3;
+      results({stamp:"CLEARED", title:"Task cleared.", sub: sync ? "Performance Sync-up is on your Calendar." : co ? "3 tasks done. You can clock out." : "Recap tomorrow at stand-up.",
+        score:`${g.items.filter(it => stats.right.has(it.g)).length}/${g.items.length}`, miles:stats.miles, missed:[...stats.missed], missedLabel:"Tricky ones",
+        next:() => hub(sync ? "cal" : "inbox")});
+      if (sync) SFX.play("meeting");
+    }});
+}
+
+/* ---------- REVIEWS (shared by both stages) ---------- */
+function reviewAnswer(){
+  return (q, ok, first) => {
+    if (!first) return ok ? {miles:2} : {};
+    if (ok) { const m = bump(q.id); return {miles: S.stage === 2 ? 12 : 10, mastered:m}; }
+    slip(q.id); return {};
+  };
+}
+function startStandup(){
+  SFX.play("meeting");
+  const due = dueIds().slice(0, 30);
+  if (!due.length) { S.standupDay = S.day; save(); hub("inbox"); return; }
+  runQuiz({kicker:`DAILY STAND-UP · ${weekday(S.day).toUpperCase()} 9:00AM`, title:`Recap: ${due.length} kana due`, questions:shuffle(due.map(id => Q(id))), requeue:true,
+    onExit:() => hub(), onAnswer:reviewAnswer(),
+    onDone:stats => {
+      S.standupDay = S.day;
+      const missed = [...stats.missed]; if (!missed.length) stats.miles += addMiles(50);
+      const more = dueIds().length;
+      results({stamp: missed.length ? "NOTED" : "ON TRACK", stampColor: missed.length ? "red" : "green",
+        title: missed.length ? "Stand-up done." : "Flawless stand-up.",
+        sub: (missed.length ? `${missed.length} sent to Escalations.` : "+50 bonus.") + (more ? ` ${more} more due.` : " Inbox unlocked."),
+        score:`${due.length - missed.length}/${due.length}`, miles:stats.miles, mastered:stats.mastered, missed, missedLabel:"Escalated"});
+    }});
+}
+function startEsc(back){
+  const ids = escIds(), jp = S.stage === 2;
+  runQuiz({kicker: jp ? "MISTAKES · PRACTICE" : "ESCALATIONS · BUG BASH", title:`${ids.length} open`, questions:shuffle(ids.map(id => Q(id))).concat(shuffle(ids.map(id => Q(id)))), requeue:false, buff:jp,
+    onExit:back,
+    onAnswer:(q, ok) => { const s = st(q.id); if (!ok) { s.eh = 0; return {}; } s.eh = (s.eh || 0) + 1; if (s.eh >= 2) s.esc = false; return {miles:15}; },
+    onDone:stats => {
+      const open = escIds();
+      results({title: open.length ? "Some still open." : (jp ? "All mistakes fixed." : "All escalations closed."),
+        sub: open.length ? "Answer each right twice to close it." : (jp ? "Clean slate." : `${job().boss} replied “ok”.`),
+        score:`${stats.correct}/${stats.correct + stats.wrong}`, miles:stats.miles, missed:open, missedLabel:"Still open", next:back});
+    }});
+}
+function startSync(){
+  const pool = shuffle(learnedKana()).slice(0, 15);
+  if (!pool.length) return hub("cal");
+  SFX.play("meeting");
+  runQuiz({kicker:"PERFORMANCE SYNC-UP", title:"Mixed review", questions:pool.map(it => Q(it.g)), requeue:false, onExit:() => hub("cal"),
+    onAnswer:(q, ok) => ok ? {miles:15} : {},
+    onDone:stats => {
+      S.syncDone = (S.syncDone || 0) + 1; const great = stats.correct >= Math.ceil(pool.length * .85); if (great) stats.miles += addMiles(100);
+      results({stamp: great ? "EXCEEDS" : "MEETS", stampColor: great ? "green" : "red", title: great ? "Exceeds expectations." : "Meets expectations.",
+        sub: great ? "+100 bonus. Still no raise." : "Review the ones below.", score:`${stats.correct}/${pool.length}`, miles:stats.miles, missed:[...stats.missed], next:() => hub("inbox")});
+    }});
+}
+
+/* ---------- DIAGNOSTIC: every correct answer = mastered + miles ---------- */
+const placementAnswer = (q, ok) => { if (!ok) return {}; return {miles:10, mastered: masterNow(q.id)}; };
+function startDiagnostic(){
+  const known = new Set(), parts = [["hira","base"],["hira","extra"],["kata","base"],["kata","extra"]];
+  let p = 0, totalMiles = 0, totalRight = 0, totalAsked = 0; const mastered = [];
+  function next(){
+    while (p < parts.length) {
+      const [sc, kind] = parts[p];
+      if (kind === "extra" && GROUPS.filter(g => g.script === sc && g.kind === "base" && known.has(g.id)).length < 7) { p++; continue; }
+      break;
+    }
+    if (p >= parts.length) return finish();
+    const [sc, kind] = parts[p], groups = GROUPS.filter(g => g.script === sc && (kind === "base" ? g.kind === "base" : g.kind !== "base"));
+    const per = kind === "base" ? 2 : 1, tally = {};
+    const qs = shuffle(groups.flatMap(g => shuffle(g.items).slice(0, per).map(it => Q(it.g, "g2r"))));
+    runQuiz({kicker:`ONBOARDING ASSESSMENT · PART ${p+1}`, title:`${sc === "hira" ? "Hiragana" : "Katakana"} · ${kind === "base" ? "basic characters" : "dakuten & combos"}`, questions:qs, requeue:false, idk:true,
+      onExit:() => { save(); placementScreen(); },
+      onAnswer:(q, ok) => { const t = (tally[REG[q.id].group] ||= {ok:0, n:0}); t.n++; if (ok) t.ok++; return placementAnswer(q, ok); },
+      onDone:stats => { totalMiles += stats.miles; totalRight += stats.correct; totalAsked += stats.correct + stats.wrong; mastered.push(...stats.mastered);
+        groups.forEach(g => { const t = tally[g.id]; if (t && t.ok === t.n) known.add(g.id); }); p++; next(); }});
+  }
+  function finish(){
+    let inferred = 0;
+    GROUPS.forEach(g => { if (known.has(g.id)) { S.done[g.id] = true; g.items.forEach(it => { if (!isMastered(it.g)) { const s = st(it.g); s.box = Math.max(s.box, 2); s.due = S.day + 1; s.lb = S.day; inferred++; } }); } });
+    S.placed = true; save();
+    const m = masteredCount();
+    results({stamp:"PLACED", title: m ? `${m} kana mastered on day one.` : "Fresh start it is.",
+      sub: m ? `Correct answers count as mastered. ${known.size} tasks archived.` : "Your first task is waiting.",
+      score:`${totalRight}/${totalAsked}`, miles:totalMiles, mastered: mastered.slice(0, 40), btn:"Go to my desk", next:() => hub("inbox")});
+  }
+  next();
+}
+function startResign(back){
+  const take = (sc, base, n) => shuffle(ALL.filter(i => i.script === sc && (base ? i.kind === "base" : i.kind !== "base"))).slice(0, n);
+  const qs = shuffle([...take("hira",1,10), ...take("hira",0,5), ...take("kata",1,10), ...take("kata",0,5)].map(it => Q(it.g)));
+  S.resignDay = S.day; save();
+  runQuiz({kicker:"RESIGNATION LETTER · 90% TO PASS", title:"Prove you don't need this job", questions:qs, requeue:false, onExit:() => { save(); back(); },
+    onAnswer:placementAnswer,
+    onDone:stats => {
+      const pass = stats.correct >= 27;
+      if (pass) {
+        ALL.forEach(it => { const s = st(it.g); s.box = Math.max(s.box, 4); s.due = S.day + 4; s.esc = false; }); GROUPS.forEach(g => S.done[g.id] = true);
+        S.ticket = true; S.skipped = true; S.placed = true; save(); SFX.play("stamp");
+        results({stamp:"ACCEPTED", title:"Resignation accepted.", sub:"Your ticket to Osaka is booked.", score:`${stats.correct}/30`, miles:stats.miles, btn:"Head to Changi", next:ending});
+      } else {
+        SFX.play("stamp");
+        results({stamp:"REJECTED", stampColor:"red", title:"Resignation rejected.", sub:`You needed 27. Please see HR.`, score:`${stats.correct}/30`, miles:stats.miles, mastered:stats.mastered, missed:[...stats.missed], missedLabel:"Missed",
+          btn: S.placed ? "Back to my desk" : "Back to options", next: S.placed ? () => hub("inbox") : back});
+      }
+    }});
+}
+
+/* ---------- STAGE 1 → 2 ---------- */
+function ending(){
+  SFX.play("jet"); setTimeout(() => SFX.play("fanfare"), 2600);
+  const el = screen(`<div class="bg bloom" style="background-image:url(japan.jpg)"></div><div class="end-shade"></div><canvas class="leaf-canvas"></canvas>
+    <div class="end-in pad">
+      <div class="jpk">関西国際空港 · KANSAI INTERNATIONAL</div>
+      <h2>ようこそ, ${esc(S.name)}.<br>Welcome to Japan.</h2>
+      <p>No more inbox.</p>
+      <p style="color:var(--momiji)">Stage 2: learn N5 Japanese in Osaka.</p>
+      <div class="stack"><button class="btn btn-red" id="e1">Begin Stage 2 ${I.start}</button><button class="btn btn-ghost" id="e2" style="color:var(--paper);border-color:rgba(245,237,224,.4)">Title screen</button></div>
+    </div>`, "end");
+  setTimeout(() => { const c = $(".leaf-canvas", el); if (c) leaves(c, 22); }, 1800);
+  $("#e1", el).addEventListener("click", () => {
+    SFX.play("koto");
+    if (S.stage !== 2) { S.stage = 2; S.day += 1; S.osakaStart = S.day; S.reviewDay = S.day; save(); }
+    hub2("missions");
+  });
+  $("#e2", el).addEventListener("click", titleScreen);
+}
+
+/* ================= STAGE 2: OSAKA HUB ================= */
+let tab2 = "missions";
+function hub2(tab){
+  if (tab) tab2 = tab;
+  if (!["missions","today","shop","progress"].includes(tab2)) tab2 = "missions";
+  const vm = VOCAB.length, v = vocabMastered(), g = gramMastered(), cleared = MISSIONS.filter(m => S.done2[m.id]).length;
+  const el = screen(`
+    <header class="hub-top"><div class="bg" style="background-image:url(japan.jpg)"></div>
+      <div class="hub-in pad">
+        <div class="row"><div class="who">${avatar()}<div><b>${esc(S.name)}</b><span>Free in Osaka</span></div></div>${soundBtn()}</div>
+        <div class="row"><div class="miles">${I.coin}<b>${fmt(S.miles)}</b><span>ZEN MILES</span>${S.buff ? `<span class="buff">+${Math.round(S.buff.pct*100)}%×${S.buff.left}</span>` : ""}</div><div class="day">OSAKA DAY ${osakaDay()}<small>${cleared}/${MISSIONS.length} MISSIONS</small></div></div>
+        <div class="prog"><div class="prog-bar"><i class="m" style="width:${v/vm*100}%"></i></div>
+          <div class="prog-txt"><span><b>${v}</b>/${vm} N5 words mastered</span><span><b>${g}</b>/${MISSIONS.length} grammar points</span></div></div>
+      </div></header>
+    <main class="scroll pad tab-body" id="tb"></main>
+    <nav class="tabs" role="tablist">
+      ${[["missions","Missions",I.map,0],["today","Today",I.sun,reviewPending() ? 1 : (escIds().length ? escIds().length : 0)],["shop","Shop",I.shop,0],["progress","Progress",I.chart,0]]
+        .map(([k,n,ic,b]) => `<button role="tab" data-tab="${k}" aria-selected="${tab2===k}">${ic}${n}${b ? `<span class="badge">${b}</span>` : ""}</button>`).join("")}
+    </nav>`, "jp");
+  wireSound(el);
+  $$("[data-tab]", el).forEach(b => b.addEventListener("click", () => { if (tab2 !== b.dataset.tab) { SFX.play("tap"); hub2(b.dataset.tab); } }));
+  ({missions:renderMissions, today:renderToday, shop:renderShop, progress:renderProgress})[tab2]($("#tb", el));
+  save();
+}
+function renderMissions(tb){
+  const locked = reviewPending();
+  let html = "";
+  if (S.akiya) { const a = AKIYA.find(x => x.id === S.akiya); html += `<div class="banner gold"><p><b>Your akiya: ${esc(a.place)}.</b> Stage 3 coming soon.</p></div>`; }
+  if (locked) html += `<div class="banner"><p><b>Morning review first.</b> ${dueIds().length} items due.</p><button class="btn btn-red btn-sm" id="rv">Start morning review</button></div>`;
+  CHAPTERS.forEach((ch, ci) => {
+    const open = chOpen(ch), n = ch.missions.filter(m => S.done2[m.id]).length;
+    html += `<section class="chapter"><div class="ch-h"><div><small style="font-family:var(--f-kana)">${ch.jp}</small><b>${ch.name}</b></div><span class="st">${open ? n + "/" + ch.missions.length : "LOCKED"}</span></div>`;
+    if (!open) {
+      const gate = SHOP_GATES[ch.gate];
+      html += `<div class="ch-lock"><span>${I.lock.replace("<svg", '<svg width="18" height="18"')}</span><span>Needs <b>${gate.name}</b>. ${gateReady(ch.gate) ? "In the Shop now." : "Clear " + gate.needs.map(c => chById(c).name).join(" and ") + " first."}</span></div>`;
+    } else ch.missions.forEach(m => {
+      const done = S.done2[m.id];
+      html += `<button class="mail ${done ? "done" : "unread"} ${locked ? "locked" : ""}" data-m="${m.id}" ${locked ? 'tabindex="-1"' : ""}>
+        <span class="num">${done ? "✓" : m.no}</span>
+        <span class="mail-m"><b class="mail-s">${esc(m.title)}</b><span class="mail-sub kn">${esc(m.g.name)}</span></span></button>`;
+    });
+    html += `</section>`;
+  });
+  tb.innerHTML = html;
+  const rv = $("#rv", tb); if (rv) rv.addEventListener("click", startMorning);
+  $$(".mail[data-m]", tb).forEach(b => b.addEventListener("click", () => { SFX.play("bell"); missionBrief(MISSIONS.find(m => m.id === b.dataset.m)); }));
+}
+function renderToday(tb){
+  const due = dueIds().length, rvDone = S.reviewDay === S.day, slips = escIds();
+  let html = `<div class="sec-h"><h3>Osaka day ${osakaDay()}</h3><span>${S.buff ? `${S.buff.name}: +${Math.round(S.buff.pct*100)}% for ${S.buff.left} more` : "No food buff"}</span></div>`;
+  html += `<div class="event ${reviewPending() ? "hot" : ""}"><time>7:30am</time><div><b>Morning review</b>
+    ${due ? `<p>${due} items due.</p><button class="btn btn-red btn-sm" data-act="rv">${rvDone ? "Review again" : "Start review"}</button>` : `<p>Nothing due.</p>${rvDone ? '<span class="done">DONE ✓</span>' : ""}`}</div></div>`;
+  html += `<div class="event"><time>any</time><div><b>Fix mistakes</b>${slips.length ? `<p>${slips.length} to fix.</p><div class="chips" style="margin-bottom:10px">${slips.slice(0, 12).map(id => `<span class="chip k">${esc(labelOf(id))}</span>`).join("")}</div><button class="btn btn-paper btn-sm" data-act="slip">Practise mistakes</button>` : `<p>None right now.</p>`}</div></div>`;
+  html += `<div class="event"><time>any</time><div><b>JLPT N5 mock exam</b><p>24/30 to pass. Unlocks akiya buying, +1,500 miles.</p>
+    ${S.cert ? '<span class="done">CERTIFIED ✓</span>' : S.examDay === S.day ? '<span class="muted">Try again tomorrow</span>' : '<button class="btn btn-ghost btn-sm" data-act="exam">Take the exam</button>'}</div></div>`;
+  html += `<div class="event"><time>10:30pm</time><div><b>Sleep</b><p>Start the next day.</p><button class="btn btn-ghost btn-sm" data-act="sleep">${I.moon} おやすみなさい</button></div></div>`;
+  html += settingsHTML();
+  tb.innerHTML = html;
+  const on = (a, f) => { const b = $(`[data-act="${a}"]`, tb); if (b) b.addEventListener("click", f); };
+  on("rv", startMorning); on("slip", () => startEsc(() => hub2("today"))); on("exam", startExam);
+  const sl = $('[data-act="sleep"]', tb);
+  if (reviewPending()) hold(sl, "Skip review and sleep?", sleep); else sl.addEventListener("click", sleep);
+  wireSettings(tb);
+}
+function priceTag(p){ return `<span class="price">${I.coin}${fmt(p)}</span>`; }
+function renderShop(tb){
+  let html = `<div class="sec-h"><h3>Food</h3><span>Miles boost</span></div>`;
+  FOODS.forEach(f => {
+    html += `<div class="item"><div class="ico">${f.jp}</div><div><b>${f.name}</b><span class="jpn">${f.jp}</span><p>+${Math.round(f.pct * 100)}% miles × ${f.n}</p>
+      <button class="btn btn-paper btn-sm" data-food="${f.id}" ${S.miles < f.price ? "disabled" : ""}>Order · ${priceTag(f.price)}</button></div></div>`;
+  });
+  html += `<div class="sec-h"><h3>Big purchases</h3></div>`;
+  Object.entries(SHOP_GATES).forEach(([id, g]) => {
+    const owned = S.owned[id], ready = gateReady(id);
+    html += `<div class="item"><div class="ico">${GATE_ICON[id]}</div><div><b>${g.name}</b><span class="jpn">${g.jp}</span><p>Unlocks ${g.unlocks}.</p>
+      ${owned ? '<span class="owned">OWNED ✓</span>' : ready ? `<button class="btn btn-red btn-sm" data-gate="${id}" ${S.miles < g.price ? "disabled" : ""}>Buy · ${priceTag(g.price)}</button>${S.miles < g.price ? `<p style="margin:6px 0 0">Need ${fmt(g.price - S.miles)} more.</p>` : ""}`
+        : `<p style="margin:0">Clear ${g.needs.map(c => chById(c).name).join(" and ")} first.</p>`}</div></div>`;
+  });
+  html += `<div class="sec-h"><h3>Akiya listings</h3><span>${S.cert ? "N5 certified" : "N5 certificate required"}</span></div>`;
+  const show = S.cert || chDone(chById("c6"));
+  if (!show && !S.owned.agent) html += `<div class="ch-lock"><span>${I.house.replace("<svg", '<svg width="22" height="22"')}</span><span>Clear <b>Akiya Viewings</b> or pass the <b>N5 exam</b>.</span></div>`;
+  else AKIYA.forEach((a, i) => {
+    const mine = S.akiya === a.id;
+    html += `<div class="listing"><div class="ph" style="background-image:url(japan.jpg);background-position:${["20% 85%","90% 70%","50% 95%"][i]}"><span>${esc(a.place.toUpperCase())}</span></div><div class="bd">
+      <b>${esc(a.place)}</b><div class="jt">${a.jp}</div><div class="en">${esc(a.en)}</div><small>${a.rooms}</small>
+      ${mine ? '<span class="owned">YOURS ✓</span>' : S.akiya ? "" : !S.cert ? `<p style="margin:4px 0 0;font-size:13px;color:var(--soft)">Needs the N5 certificate.</p>` : `<button class="btn btn-red btn-sm" data-akiya="${a.id}" ${S.miles < a.price ? "disabled" : ""}>Buy this akiya · ${priceTag(a.price)}</button>${S.miles < a.price ? `<p style="margin:4px 0 0;font-size:13px;color:var(--soft)">Need ${fmt(a.price - S.miles)} more.</p>` : ""}`}
+    </div></div>`;
+  });
+  tb.innerHTML = html;
+  $$("[data-food]", tb).forEach(b => b.addEventListener("click", () => orderFood(FOODS.find(f => f.id === b.dataset.food))));
+  $$("[data-gate]", tb).forEach(b => b.addEventListener("click", () => {
+    const id = b.dataset.gate, g = SHOP_GATES[id]; S.miles -= g.price; S.owned[id] = true; save(); SFX.play("buy");
+    hub2("missions"); toast(`<b>${g.jp}</b> bought. ${esc(g.unlocks)} unlocked.`, 2800);
+  }));
+  $$("[data-akiya]", tb).forEach(b => hold(b, "Tap again to sign the contract", () => { const a = AKIYA.find(x => x.id === b.dataset.akiya); S.miles -= a.price; S.akiya = a.id; save(); akiyaEnding(a); }));
+}
+function orderFood(f){
+  const cur = current;
+  const opts = shuffle([[`${f.jp}を ください。`, true],[`${f.jp}が ください。`, false],[`${f.jp}に ください。`, false],[`${f.jp}で ください。`, false]]);
+  cur.insertAdjacentHTML("beforeend", `<div class="sheet-wrap" id="sw"><div class="sheet pad">
+    <div class="say"><span>Shopkeeper</span><b>いらっしゃいませ！</b><span>Welcome! What would you like?</span></div>
+    <h3>Order: one ${f.name.toLowerCase()}, please</h3>
+    <div class="opts">${opts.map(([t], i) => `<button class="o kw" data-i="${i}">${t}</button>`).join("")}</div>
+    <button class="btn btn-ghost btn-sm" id="cx" style="justify-self:center">Never mind</button></div></div>`);
+  const sw = $("#sw", cur);
+  $("#cx", sw).addEventListener("click", () => sw.remove());
+  sw.addEventListener("click", e => { if (e.target === sw) sw.remove(); });
+  $$(".o", sw).forEach(b => b.addEventListener("click", () => {
+    const ok = opts[+b.dataset.i][1];
+    $$(".o", sw).forEach(x => { x.disabled = true; if (opts[+x.dataset.i][1]) x.classList.add("ok"); else if (x !== b) x.classList.add("dim"); });
+    if (!ok) b.classList.add("bad");
+    S.miles -= f.price; S.buff = {name:f.name, pct:f.pct, left:f.n}; save();
+    SFX.play(ok ? "correct" : "wrong"); speak(`${f.jp}を ください`);
+    $(".say", sw).innerHTML = ok ? `<span>Shopkeeper</span><b>はい、どうぞ！</b><span>Here you go! (+${Math.round(f.pct*100)}% Zen Miles for ${f.n} sessions)</span>`
+      : `<span>Shopkeeper (smiling)</span><b>${f.jp}を ください、ですね。</b><span>She gently corrects you: を marks what you're asking for. Still served.</span>`;
+    setTimeout(() => { SFX.play("buy"); hub2("shop"); }, ok ? 1300 : 2600);
+  }));
+}
+function renderProgress(tb){
+  let html = `<div class="sec-h"><h3>N5 vocabulary</h3><span>${vocabMastered()}/${VOCAB.length} mastered</span></div>
+    <div class="legend"><span><i style="background:var(--mbg)"></i>Mastered</span><span><i style="background:rgba(229,134,58,.4)"></i>Learning</span><span><i style="background:var(--chip)"></i>Not yet</span></div>`;
+  CHAPTERS.forEach(ch => {
+    html += `<div class="board"><div><h4>${ch.name}</h4><div class="wgrid">${ch.missions.flatMap(m => m.vocab).map(v => { const s = S.items[v.id] || {}; const c = s.box >= MASTER ? "m" : s.box > 0 ? "l" : ""; return `<button class="kc ${c} ${s.esc ? "e" : ""}" data-v="${v.id}">${v.kana}</button>`; }).join("")}</div></div></div>`;
+  });
+  html += `<div class="sec-h"><h3>Grammar points</h3><span>${gramMastered()}/${MISSIONS.length}</span></div><div class="stack" style="gap:6px">`;
+  MISSIONS.forEach(m => { const seen = m.gq.some(q => boxOf(q.id) > 0), done = gramPointDone(m); html += `<div class="gram-row"><b>${esc(m.g.name)}</b><span class="${done ? "ok" : ""}">${done ? "MASTERED" : seen ? "LEARNING" : "NOT YET"}</span></div>`; });
+  html += `</div><div class="sec-h"><h3>Kana</h3><span>${masteredCount()}/208</span></div>` + kanaBoard();
+  tb.innerHTML = html;
+  $$(".kc[data-v]", tb).forEach(b => b.addEventListener("click", () => { const v = REG[b.dataset.v]; speak(v.kana); toast(`<b>${v.kana}</b>${v.kanji ? " " + v.kanji : ""} = ${esc(v.en)}`, 1800); }));
+  wireBoard(tb);
+}
+function sleep(){
+  SFX.play("night"); S.day += 1; save();
+  const due = dueIds().length;
+  const el = screen(`<div class="bg" style="background-image:url(japan.jpg);background-position:center 30%"></div><div class="shade warm"></div>
+    <div class="day-in pad">
+      <p class="meta">おはようございます · GOOD MORNING</p>
+      <div class="wd">Osaka</div><div class="big">Day ${osakaDay()}</div>
+      <p>${pick(MORNING)}</p>
+      ${due ? `<p style="color:var(--momiji)">${due} items to review.</p>` : ""}
+      <button class="btn btn-red" id="in">Head out</button>
+    </div>`);
+  $("#in", el).addEventListener("click", () => { SFX.play("bell"); hub2(reviewPending() ? "today" : "missions"); });
+}
+
+/* ---------- STAGE 2 MISSION ---------- */
+function topBar(kicker, title, w){ return `<div class="q-top pad"><div class="row"><div style="min-width:0"><div class="q-kicker">${kicker}</div><div class="q-title">${esc(title)}</div></div><button class="icon-btn" id="qx" aria-label="Back">${I.close}</button></div>${w != null ? `<div class="q-bar"><i style="width:${w}%"></i></div>` : ""}</div>`; }
+function missionBrief(m){
+  const el = screen(topBar(`MISSION ${m.no} · ${esc(m.ch.name).toUpperCase()}`, m.title) + `
+    <div class="q-main pad">
+      <p class="scene">${esc(m.scene)}</p>
+      <span class="label">New words · tap to hear</span>
+      <div class="att-list">${m.vocab.map(v => `<button class="kcard w" data-say="${v.kana}"><span class="gl">${v.kana}</span><span><span class="rm">${esc(v.en)}</span>${v.kanji ? `<span class="nt">${v.kanji}</span>` : ""}</span></button>`).join("")}</div>
+      <span class="label">Grammar</span>
+      <div class="gcard"><div class="pattern">${esc(m.g.name)}</div><p>${esc(m.g.note)}</p>
+        ${m.g.ex.map(([j, e]) => `<button class="ex" data-say="${j}"><b>${j}</b><span>${esc(e)}</span></button>`).join("")}</div>
+    </div>
+    <div class="sticky-foot pad"><button class="btn btn-red" id="go">Start practice</button></div>`, "jp");
+  $("#qx", el).addEventListener("click", () => { SFX.play("tap"); hub2("missions"); });
+  $$("[data-say]", el).forEach(b => b.addEventListener("click", () => { $$(".kcard", el).forEach(x => x.classList.toggle("on", x === b)); speak(b.dataset.say); }));
+  $("#go", el).addEventListener("click", () => { SFX.play("tap"); missionQuiz(m); });
+}
+function missionQuiz(m){
+  const qs = shuffle(m.vocab.map(v => Q(v.id, "j2e"))).concat(shuffle(m.vocab.map(v => Q(v.id, "e2j"))), m.gq.map(q => Q(q.id, "fill")));
+  runQuiz({kicker:`MISSION ${m.no} · PRACTICE`, title:m.title, questions:qs, requeue:true, buff:true, onExit:() => hub2("missions"),
+    onAnswer:(q, ok) => ok ? {miles:8} : {},
+    onDone:stats => {
+      const wasDone = S.done2[m.id], chWas = chDone(m.ch);
+      S.done2[m.id] = true; [...m.vocab, ...m.gq].forEach(it => seed(it.id));
+      stats.miles += addMiles(60 * buffMult()); useBuff();
+      const chNow = chDone(m.ch) && !chWas;
+      const gateNext = Object.entries(SHOP_GATES).find(([id, g]) => !S.owned[id] && g.needs.includes(m.ch.id) && gateReady(id));
+      let sub = wasDone ? "Practice round." : "Review tomorrow morning.";
+      if (chNow) sub = gateNext ? `${esc(gateNext[1].name)} is in the Shop.` : m.ch.id === "c6" ? "Akiya listings are in the Shop." : sub;
+      results({stamp:"CLEARED", title: chNow ? `${esc(m.ch.name)} cleared.` : "Mission cleared.", sub, score:`${stats.right.size}/${m.vocab.length + m.gq.length}`, miles:stats.miles, missed:[...stats.missed], missedLabel:"Tricky ones",
+        next:() => hub2(chNow && gateNext ? "shop" : "missions")});
+      if (chNow) setTimeout(() => SFX.play("fanfare"), 300);
+    }});
+}
+function startMorning(){
+  SFX.play("bell");
+  const due = dueIds().slice(0, 30);
+  if (!due.length) { S.reviewDay = S.day; save(); hub2("missions"); return; }
+  runQuiz({kicker:`MORNING REVIEW · OSAKA DAY ${osakaDay()}`, title:`${due.length} items due`, questions:shuffle(due.map(id => Q(id))), requeue:true, buff:true,
+    onExit:() => hub2("today"), onAnswer:reviewAnswer(),
+    onDone:stats => {
+      S.reviewDay = S.day; useBuff();
+      const missed = [...stats.missed]; if (!missed.length) stats.miles += addMiles(60 * buffMult());
+      const more = dueIds().length;
+      results({stamp: missed.length ? "OK" : "完璧", stampColor: missed.length ? "red" : "green", title: missed.length ? "Review done." : "Perfect review.",
+        sub: (missed.length ? `${missed.length} added to mistakes.` : "+60 bonus.") + (more ? ` ${more} more due.` : " いってらっしゃい!"),
+        score:`${due.length - missed.length}/${due.length}`, miles:stats.miles, mastered:stats.mastered, missed, missedLabel:"Mistakes", next:() => hub2("missions")});
+    }});
+}
+function startExam(){
+  const qs = shuffle([...shuffle(VOCAB).slice(0, 15).map(v => Q(v.id)), ...shuffle(GRAMQ).slice(0, 15).map(g => Q(g.id, "fill"))]);
+  S.examDay = S.day; save();
+  runQuiz({kicker:"JLPT N5 MOCK EXAM · 80% TO PASS", title:"30 questions", questions:qs, requeue:false, onExit:() => { save(); hub2("today"); },
+    onAnswer:placementAnswer,
+    onDone:stats => {
+      const pass = stats.correct >= 24;
+      if (pass) { S.cert = true; stats.miles += addMiles(1500); }
+      SFX.play("stamp");
+      results({stamp: pass ? "合格 PASS" : "不合格", stampColor: pass ? "green" : "red", title: pass ? "N5 certified." : "Not this time.",
+        sub: pass ? "+1,500 miles. Akiyas unlocked." : "You needed 24. Try again tomorrow.",
+        score:`${stats.correct}/30`, miles:stats.miles, mastered:stats.mastered, missed:[...stats.missed], missedLabel:"Missed", next:() => hub2(pass ? "shop" : "today")});
+    }});
+}
+function akiyaEnding(a){
+  SFX.play("fanfare");
+  const el = screen(`<div class="bg" style="background-image:url(japan.jpg);background-position:20% 85%"></div><div class="end-shade"></div><canvas class="leaf-canvas"></canvas>
+    <div class="end-in pad">
+      <div class="jpk">空き家 · ${esc(a.place.toUpperCase())}</div>
+      <h2>It's yours, ${esc(S.name)}.</h2>
+      <p>${a.jp}</p>
+      <p>${esc(a.en)}</p>
+      <p style="color:var(--momiji)">Stage 3: renovate with N4 Japanese. Coming soon.</p>
+      <div class="stack"><button class="btn btn-red" id="e1">Keep learning in Osaka</button><button class="btn btn-ghost" id="e2" style="color:var(--paper);border-color:rgba(245,237,224,.4)">Title screen</button></div>
+    </div>`, "end");
+  setTimeout(() => { const c = $(".leaf-canvas", el); if (c) leaves(c, 24); }, 300);
+  $("#e1", el).addEventListener("click", () => hub2("missions"));
+  $("#e2", el).addEventListener("click", titleScreen);
+}
+
+/* ================= BOOT ================= */
+try { SFX.on = localStorage.getItem("owtj-sound") !== "0"; } catch(e){}
+["japan.jpg","singapore.jpg","office.jpg","char1.webp","char2.webp","char3.webp","char4.webp"].forEach(src => { const i = new Image(); i.src = src; });
+function start(data){ if (data && data.S) { S = Object.assign(fresh(), data.S); home(); } else titleScreen(); }
+window.claude?.hot?.snapshot?.(() => S && S.name ? {S} : {});
+window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+})();
+</script>
+
+</body>
+</html>
